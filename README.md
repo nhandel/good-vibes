@@ -34,11 +34,26 @@ The core workflow involves:
 > **Mental checkpoint — "If I can't explain the diff, I don't accept."**
 
 ### Tools
-* Cursor or Windsurf or Cline or Roo or etc. I use cursor with a combination of gemini 2.5 4.1 and claude 3.7
-Superwhisper or whisperflow or any others I use superwhisper
- * Repoprompt or Pastemax I use pastemax
- * Frontier Models Gemini, Claude or OpenAI etc. I use Gemini 2.5 Pro and o3 primarily
- * 
+
+The Vibe Coding workflow is designed to be tool-agnostic, but the following categories and examples are recommended for optimal results:
+
+- **Code Editors:**  
+  *Examples:* Cursor, Windsurf, Cline, Roo  
+  *Usage:* For step-by-step plan execution, code review, and context-aware editing.  
+
+- **Speech-to-Text:**  
+  *Examples:* Superwhisper, Whisperflow, others  
+  *Usage:* For transcribing spoken project overviews, requirements, or code reviews.  
+
+- **Codebase Context:**  
+  *Examples:* RepoPrompt, PasteMax  
+  *Usage:* For generating high-level codebase summaries or extracting relevant code snippets to provide as context in prompts.  
+
+- **Frontier AI Models:**  
+  *Examples:* Gemini (2.5 Pro), Claude (3.7, 3.5), OpenAI GPT-4.5/o3  
+  *Usage:* For generating and refining core documents, implementation plans, and handling large-context reasoning tasks.  
+
+**As of 5/8/25, I tend to use Cursor with 3.7, 2.5 and 4.1 for implementation, Gemini 2.5 and O3 for planning, Superprompt and Pastemax. Use whatever works for you**
 
 ## How to vibe code
 
@@ -51,7 +66,7 @@ This framework employs a structured, iterative process for AI-assisted developme
         *   **Tooling:** Use a **frontier AI model** with a large context window (e.g., via a browser interface).
         *   **Input Context Preparation:**
             *   Gather the content of the `vibe-coding/README.md` (this file) to provide the AI with workflow and document structure definitions.
-            *   If working on an existing codebase, prepare relevant code snippets or a high-level summary using tools like **RepoPrompt** or **PasteMax**.
+            *   If working on an existing codebase, prepare relevant code snippets using a codebase context tool like **PasteMax**.
             *   Prepare a detailed project description, goals, target users, and known technical constraints. Tools like **Superwhisper** can be used to transcribe a spoken overview.
             *   Have the content of any drafted style guides ready.
         *   **Execution:**
@@ -73,7 +88,7 @@ This framework employs a structured, iterative process for AI-assisted developme
     *   **Crucial Human Review:** Thoroughly review this plan. Verify it includes `Step 0: Test Scaffold` and `Step n: Clean Up and Testing`. Ensure steps are logical, atomic, and have clear validation. Refine manually as needed.
 
 2.  **Iterative Implementation (Step-by-Step Execution):**
-    *   **Tooling:** Switch to an AI-assisted coding editor (e.g., **Cursor**, **Windsurf**) configured with `.cursor/rules/rules.mdc` and style guides. Ensure the generated/reviewed `implementation-plan-[feature-name].mdc` is present in the local `.cursor/rules/` directory.
+    *   **Tooling:** Switch to an AI-assisted coding editor (e.g., **Cursor**) configured with `.cursor/rules/rules.mdc` and style guides. Ensure the generated/reviewed `implementation-plan-[feature-name].mdc` is present in the local `.cursor/rules/` directory.
     *   **Begin Plan (First Step):**
         *   Use `prompt-2-implement-plan.md` within the editor, replacing `[feature-name]`.
         *   The AI executes the first step (usually `Step 0`) using its 4-stage process (Understand Validation -> Execute/Self-Correct -> Update Context -> Report).
