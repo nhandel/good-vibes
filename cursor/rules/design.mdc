@@ -1,0 +1,79 @@
+---
+description: A description of the project design including a high level overview, user flows, UI layout, key interactions, ux requirements, etc.
+globs: 
+alwaysApply: false
+---
+<!-- 
+This is a template for the Design Document. 
+Replace the instructional placeholders below with the specific details of your project's user experience and interface design.
+-->
+
+# Project Design Document: [Your Project Name]
+
+## 1. Overview
+
+<!-- Provide a high-level summary of the project's purpose from the user's perspective. What problem does it solve? Who is the target audience? -->
+**Instructions:** Describe the overall user-facing goal and target users here.
+
+## 2. User Flows
+
+<!-- Detail the key journeys a user will take through the application. Use flowcharts or numbered steps. -->
+**Instructions:** Map out the primary user interactions and sequences.
+
+### Example User Flow: [Feature Name, e.g., User Registration]
+
+1.  User navigates to the `/register` page.
+2.  User fills in the registration form (fields: [list fields]).
+3.  User clicks the "Submit" button.
+4.  System validates input.
+    *   On success: Redirects to `/dashboard`, displays welcome message.
+    *   On failure: Reloads `/register` page, highlights errors, displays error messages.
+5.  <!-- Add more steps as needed -->
+
+<!-- Add other key user flows below -->
+
+## 3. UI Layouts & Key Screens
+
+<!-- Describe the layout and components of major screens or views. Wireframes or mockups can be linked or embedded here, but descriptions are essential. -->
+**Instructions:** Detail the structure and elements of important user interfaces.
+
+### Example Screen: [Screen Name, e.g., Dashboard]
+
+*   **Layout:** Two-column layout. Left sidebar for navigation, main content area on the right.
+*   **Navigation (Sidebar):**
+    *   Link to "Profile"
+    *   Link to "Settings"
+    *   Link to "[Feature X]"
+    *   <!-- Add other navigation items -->
+*   **Main Content Area:**
+    *   Welcome message: "Welcome, [User Name]!"
+    *   Section for "[Key Data Display]"
+    *   Button for "[Primary Action]"
+    *   <!-- Detail other components and their placement -->
+
+<!-- Add descriptions for other key screens -->
+
+## 4. Key Interactions & Visual Elements
+
+<!-- Specify important micro-interactions, animations, branding elements (colors, fonts, logos), and accessibility considerations. -->
+**Instructions:** Define specific interactive behaviors and visual style guides.
+
+*   **Button Hover Effect:** Buttons should [describe hover effect, e.g., slightly lighten].
+*   **Loading Indicator:** Use [describe indicator, e.g., a spinning icon] during data fetches.
+*   **Color Palette:**
+    *   Primary: `#XXXXXX`
+    *   Secondary: `#XXXXXX`
+    *   Accent: `#XXXXXX`
+*   **Typography:**
+    *   Headings: [Font Name], [Size]
+    *   Body Text: [Font Name], [Size]
+*   **Accessibility:** Ensure sufficient color contrast and keyboard navigation support.
+*   <!-- Add other interaction/visual details -->
+
+## 5. Non-Functional Requirements (UX-Related)
+
+<!-- List any non-functional requirements directly impacting the user experience, e.g., performance expectations, responsiveness targets. -->
+**Instructions:** Specify performance or responsiveness goals affecting the UX.
+
+*   Page load times for key screens should be under [Time, e.g., 2 seconds].
+*   The application must be responsive and usable on screen widths down to [Width, e.g., 320px]. 

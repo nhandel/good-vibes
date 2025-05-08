@@ -1,0 +1,108 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+<!-- 
+This is a template for an Implementation Plan.
+Replace placeholders with the actual steps for a specific feature or task.
+Generated using a Planning AI (like Prompt 5) based on Design, Tech Stack, Architecture, and the feature request.
+-->
+
+description: Implementation Plan for User Profile Editing Feature
+globs: [src/api/schemas/user_schemas.py, src/app/services/user_service.py, src/api/routers/users_router.py, src/ui/components/profile/*]
+alwaysApply: false
+
+# Implementation Plan: User Profile Editing
+
+**Goal:** Allow authenticated users to view and update their profile information (username, email)
+
+**Core Documents Potentially Affected:** `architecture.mdc`, `design.mdc` (if UI changes significantly)
+
+---
+
+## Step 1: Define Data Structures & API Schema
+
+*   **Goal:** Specify the data format for profile updates and the API response.
+*   **Actions:**
+    1.  **Instructions:** Define a Pydantic schema (if Python/FastAPI) or TypeScript interface/DTO named `UserProfileUpdate` in `src/api/schemas/user_schemas.py` (or equivalent path) containing fields like `username` (optional string), `email` (optional string, valid email format).
+    2.  **Instructions:** Define a Pydantic schema or TypeScript interface/DTO named `UserProfileRead` in the same file, representing the data returned after fetching or updating a profile (e.g., `id`, `username`, `email`, `updated_at`).
+    3.  **Test:** No code execution tests for this step. Manually verify the schemas/interfaces accurately represent the required data.
+*   **Validation:**
+    *   Check that the schemas/interfaces `UserProfileUpdate` and `UserProfileRead` are created in the specified location.
+    *   Verify the fields and types match the feature requirements.
+*   **Core Document Updates:** `architecture.mdc` (mention new schemas under API/Schemas section).
+*   **Progress:** Not Started
+
+---
+
+## Step 2: Create Profile Update Service Logic
+
+*   **Goal:** Implement the business logic to handle profile updates.
+*   **Actions:**
+    1.  **Instructions:** Add a new method `update_user_profile(user_id: int, profile_data: UserProfileUpdate)` to the `UserService` (or equivalent service, e.g., `src/app/services/user_service.py`).
+    2.  **Instructions:** Implement the logic within `update_user_profile`:
+        *   Fetch the user by `user_id` using the user repository.
+        *   If user not found, raise an appropriate exception (e.g., `NotFoundException`).
+        *   If `profile_data.email` is provided and different from the current email, check if the new email is already taken by another user. If so, raise a `ConflictException`.
+        *   Update the user object's fields based on the non-null values in `profile_data`.
+        *   Save the updated user object using the user repository.
+        *   Return the updated user data, formatted according to `UserProfileRead` schema.
+    3.  **Test:**
+        *   **Instructions:** In `tests/app/services/test_user_service.py`, write unit tests for the `update_user_profile` method.
+        *   **Instructions:** Include test cases for: successful update, user not found, email conflict, partial updates (only username or only email).
+        *   **Instructions:** Ensure all tests for this method pass.
+*   **Validation:**
+    *   Verify the `update_user_profile` method exists in the correct service file.
+    *   Run the unit tests created in Action 3; all must pass.
+*   **Core Document Updates:** `architecture.mdc` (update description of `UserService` to include the new method).
+*   **Progress:** Not Started
+
+---
+
+## Step 3: Create API Endpoint for Profile Update
+
+*   **Goal:** Expose the profile update functionality via an API endpoint.
+*   **Actions:**
+    1.  **Instructions:** In the user API router (`src/api/routers/users_router.py` or equivalent), add a PUT or PATCH endpoint, e.g., `PATCH /users/me/profile`.
+    2.  **Instructions:** Protect the endpoint; ensure it requires authentication and can access the current user's ID.
+    3.  **Instructions:** Use the `UserProfileUpdate` schema for the request body validation.
+    4.  **Instructions:** Use the `UserProfileRead` schema for the response model.
+    5.  **Instructions:** Inject the `UserService` and call the `update_user_profile` method with the authenticated user's ID and the request body data.
+    6.  **Instructions:** Handle potential exceptions (e.g., `NotFoundException`, `ConflictException`) raised by the service and return appropriate HTTP status codes (e.g., 404, 409).
+    7.  **Test:**
+        *   **Instructions:** Write integration tests for the `PATCH /users/me/profile` endpoint in `tests/api/test_users_api.py` (or equivalent).
+        *   **Instructions:** Test cases should include: successful update, unauthorized access (no token), invalid input data (fails schema validation), user not found (if applicable, though likely handled by auth), email conflict.
+        *   **Instructions:** Ensure all tests for this endpoint pass.
+*   **Validation:**
+    *   Verify the new endpoint exists in the correct router file.
+    *   Run the integration tests created in Action 7; all must pass.
+    *   (Optional Manual Check) Use an API client (like Postman or curl) to send a request to the endpoint with valid authentication and data, verifying a successful response. Check invalid cases too.
+*   **Core Document Updates:** `architecture.mdc` (add the new endpoint description).
+*   **Progress:** Not Started
+
+---
+
+## Step 4: Implement Frontend Profile Form (If Applicable)
+
+*   **Goal:** Create the UI components for viewing and editing the profile.
+*   **Actions:**
+    1.  **Instructions:** Create a new React component (or equivalent) named `UserProfileForm` in `src/ui/components/profile/`.
+    2.  **Instructions:** Fetch the current user's profile data when the component mounts.
+    3.  **Instructions:** Display the user's current username and email in input fields.
+    4.  **Instructions:** Add a "Save Changes" button.
+    5.  **Instructions:** On save, send a PATCH request to the `/api/users/me/profile` endpoint with the updated data.
+    6.  **Instructions:** Handle success (e.g., show a success message, update local state) and error responses (e.g., display error messages next to fields or globally).
+    7.  **Test:**
+        *   **Instructions:** Write component tests for `UserProfileForm` using [Testing Library, e.g., React Testing Library].
+        *   **Instructions:** Test rendering, data fetching simulation, form input changes, form submission (mocking the API call), success/error handling display.
+*   **Validation:**
+    *   Verify the `UserProfileForm` component exists and renders correctly.
+    *   Run the component tests created in Action 7; all must pass.
+    *   (Manual Check) Navigate to the profile page in the running application, view the form, try editing fields, and save changes. Verify UI feedback for success and errors.
+*   **Core Document Updates:** `architecture.mdc` (add `UserProfileForm` component), `design.mdc` (update description of profile screen).
+*   **Progress:** Not Started
+
+---
+
+<!-- Instructions: Add more steps as needed for the feature. Keep steps small and focused. --> 

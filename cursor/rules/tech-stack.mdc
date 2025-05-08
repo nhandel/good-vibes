@@ -1,0 +1,86 @@
+---
+description: A description of the project's tech stack including core languages and runtimes, frameworks, libraries, databases, APIs and External Services, Dev Tools and Critical technical requirements or constraints
+globs: 
+alwaysApply: false
+---
+<!-- 
+This is a template for the Tech Stack Document.
+Replace the instructional placeholders below with the specific technologies chosen for your project.
+Be precise about versions where applicable.
+-->
+
+# Project Tech Stack: [Your Project Name]
+
+## 1. Core Languages & Runtimes
+
+<!-- List the primary programming languages and their runtime environments. -->
+**Instructions:** Specify the main languages and their versions.
+
+*   **Language:** [e.g., Python] Version: [e.g., 3.11+]
+*   **Language:** [e.g., JavaScript (for Frontend)] Version: [e.g., ES2022]
+*   **Runtime:** [e.g., Node.js] Version: [e.g., 18.x LTS]
+*   <!-- Add others if necessary -->
+
+## 2. Frameworks
+
+<!-- List the major frameworks used for backend, frontend, etc. -->
+**Instructions:** Detail the primary frameworks.
+
+*   **Backend Framework:** [e.g., Django 4.2 / FastAPI 0.100]
+*   **Frontend Framework:** [e.g., React 18 / Vue 3 / SvelteKit]
+*   **CSS Framework/Library:** [e.g., Tailwind CSS 3 / Bootstrap 5 / None]
+*   <!-- Add others if necessary -->
+
+## 3. Core Libraries & Packages
+
+<!-- List essential libraries that define significant parts of the architecture or provide critical functionality. -->
+**Instructions:** Enumerate key third-party libraries.
+
+*   **Data Handling:** [e.g., Pandas (Python), Zod (TypeScript)]
+*   **API Client:** [e.g., Axios (JS), Requests (Python)]
+*   **State Management (Frontend):** [e.g., Redux Toolkit, Zustand, Pinia]
+*   **ORM/Database Client:** [e.g., SQLAlchemy (Python), Prisma (TypeScript), pg (Node.js)]
+*   **Testing:** [e.g., Pytest (Python), Jest (JS), Vitest (JS)]
+*   <!-- Add other critical libraries -->
+
+## 4. Databases
+
+<!-- Specify the database(s) used. -->
+**Instructions:** Define the database systems.
+
+*   **Primary Database:** [e.g., PostgreSQL 15]
+*   **Caching:** [e.g., Redis 7]
+*   <!-- Add others if necessary (e.g., Vector DB, Time Series DB) -->
+
+## 5. APIs & External Services
+
+<!-- List crucial external APIs or managed services the project relies on. -->
+**Instructions:** Detail external dependencies.
+
+*   **Authentication:** [e.g., Auth0 / Firebase Authentication / Custom JWT]
+*   **Payment Processing:** [e.g., Stripe API]
+*   **Cloud Provider Services:** [e.g., AWS S3 for storage, GCP Cloud Functions for serverless]
+*   <!-- Add other essential services -->
+
+## 6. Development & Operations Tools
+
+<!-- List tools used for development, building, deployment, and monitoring. -->
+**Instructions:** Specify tooling for the development lifecycle.
+
+*   **Package Manager:** [e.g., pip + venv/Poetry (Python), npm/yarn/pnpm (JS)]
+*   **Version Control:** Git
+*   **Containerization:** [e.g., Docker]
+*   **CI/CD:** [e.g., GitHub Actions, GitLab CI]
+*   **Linting/Formatting:** [e.g., Black/Flake8/Ruff (Python), ESLint/Prettier (JS)]
+*   **Monitoring/Logging:** [e.g., Sentry, Datadog]
+*   <!-- Add other relevant tools -->
+
+## 7. Critical Functionalities & Constraints
+
+<!-- Note any specific algorithms, protocols, performance constraints, or security requirements dictated by the tech stack choices. -->
+**Instructions:** Highlight any special requirements or limitations imposed by the stack.
+
+*   **Security:** All API endpoints must [e.g., require authentication via JWT].
+*   **Performance:** Real-time updates required for [Feature Y], implemented using [e.g., WebSockets].
+*   **Constraint:** Must use [Library Z] for [Specific Task] due to [Reason].
+*   <!-- Add other critical notes --> 

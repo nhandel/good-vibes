@@ -1,0 +1,187 @@
+---
+description: The architecture.mdc document is the primary blueprint for the codebase, detailing its high-level structure, key modules or components, their interactions, and the data flow patterns between them. Consult this document when you need to understand the system's overall organization, make decisions about where new code or components should reside, or ensure your changes align with established architectural patterns for a maintainable and scalable system.
+globs: 
+alwaysApply: false
+---
+<!-- 
+This is a template for the Architecture Document.
+This document evolves as the project is built. Start with the high-level structure and update it after implementing features.
+Replace placeholders with your project's specific architectural details.
+-->
+
+# Project Architecture: [Your Project Name]
+
+## 1. Overview
+
+<!-- Provide a high-level description of the architecture (e.g., Monolith, Microservices, Serverless, MVC, Hexagonal). Explain the main layers or components and how they interact. -->
+**Instructions:** Describe the overall architectural pattern and major components.
+**Example:** This project follows a [e.g., Layered Monolithic Architecture] pattern with distinct layers for Presentation (UI), Application (Business Logic/Services), and Data Access.
+
+## 2. Folder Structure
+
+<!-- Outline the main directory structure of the codebase. Use a tree-like format. -->
+**Instructions:** Map out the top-level directories and their purposes. This will be updated as the project grows.
+
+```
+/
+|-- .cursor/             # AI configuration, rules, prompts, archive
+|-- docs/                # Project documentation (outside AI context)
+|-- src/                 # Main source code directory
+|   |-- api/             # API endpoint definitions (e.g., FastAPI routers, Express routes)
+|   |-- app/             # Core application logic, services, business rules
+|   |-- core/            # Foundational code (config, logging, base classes)
+|   |-- db/              # Database models, migrations, connection setup
+|   |-- features/        # Feature-specific modules (if applicable)
+|   |-- ui/              # Frontend components, views, assets (if monolithic or serving UI)
+|   `-- utils/           # Shared utility functions
+|-- tests/               # Automated tests (mirroring src structure)
+|   |-- api/
+|   |-- app/
+|   |-- features/
+|   `-- utils/
+|-- scripts/             # Helper scripts (deployment, data migration)
+|-- .env.example         # Example environment variables
+|-- .gitignore
+|-- Dockerfile           # Container definition
+|-- README.md
+|-- requirements.txt     # Python dependencies
+`-- package.json         # Node.js dependencies (if applicable)
+```
+
+## 3. Key Modules/Components/Classes & Responsibilities
+
+<!-- Describe the purpose of key code units. This section is critical and should be updated frequently. -->
+**Instructions:** Detail the roles of major classes, modules, or components. Link them to the folder structure.
+
+### `src/core/`
+*   **`config.py` / `config.ts`:**
+    *   **Purpose:** Loads and provides access to application configuration (from environment variables, .env files).
+    *   **Key Components/Interfaces:** `Settings` class/interface.
+    *   **Instructions:** Define configuration variables needed (e.g., `DATABASE_URL`, `API_KEY`).
+*   **`logging_setup.py` / `logger.ts`:**
+    *   **Purpose:** Configures application-wide logging.
+    *   **Key Components/Interfaces:** `setup_logger()` function / `Logger` instance.
+    *   **Instructions:** Set logging level, format, and output destinations (console, file).
+
+### `src/db/`
+*   **`models/`:**
+    *   **Purpose:** Contains database model definitions (e.g., SQLAlchemy models, Prisma schema entities).
+    *   **Example File:** `user_model.py` / `User.prisma`
+    *   **Example Outline (Python/SQLAlchemy):**
+        ```python
+        # src/db/models/user_model.py
+        from sqlalchemy import Column, Integer, String
+        from .database import Base # Assuming Base is defined in database.py
+
+        class User(Base):
+            __tablename__ = "users"
+            id = Column(Integer, primary_key=True, index=True)
+            username = Column(String, unique=True, index=True)
+            email = Column(String, unique=True, index=True)
+            # Instructions: Add other relevant fields (e.g., hashed_password, created_at)
+        ```
+    *   **Instructions:** Define models representing your core data entities.
+*   **`database.py` / `client.ts`:**
+    *   **Purpose:** Handles database connection setup and session management.
+    *   **Key Components/Interfaces:** `engine`, `SessionLocal` (SQLAlchemy) / `PrismaClient` instance.
+    *   **Instructions:** Configure connection string, connection pool.
+
+### `src/app/services/`
+*   **Purpose:** Contains business logic implementation, orchestrating data access and tasks.
+*   **Example File:** `auth_service.py` / `authService.ts`
+*   **Example Outline (TypeScript):**
+    ```typescript
+    // src/app/services/authService.ts
+    import { UserRepository } from '../repositories/userRepository'; // Assume repository exists
+
+    export class AuthService {
+      private userRepository: UserRepository;
+
+      constructor(userRepository: UserRepository) {
+        this.userRepository = userRepository;
+      }
+
+      async registerUser(userData: /* Define UserInputDTO */ any): Promise</* Define UserOutputDTO */ any> {
+        // Instructions: Implement user registration logic here.
+        // 1. Validate input.
+        // 2. Check if user already exists (use userRepository).
+        // 3. Hash password.
+        // 4. Create user in DB (use userRepository).
+        // 5. Return created user data (excluding sensitive info).
+        throw new Error('Not implemented');
+      }
+
+      async loginUser(credentials: /* Define LoginCredentialsDTO */ any): Promise</* Define AuthTokenDTO */ any> {
+        // Instructions: Implement user login logic here.
+        // 1. Find user by email/username (use userRepository).
+        // 2. Verify password.
+        // 3. Generate JWT or session token.
+        // 4. Return token.
+        throw new Error('Not implemented');
+      }
+    }
+    ```
+*   **Instructions:** Create services for distinct functional areas (e.g., `OrderService`, `ProductService`).
+
+### `src/api/routers/` (Example for API)
+*   **Purpose:** Defines API endpoints, handles request/response validation, and calls application services.
+*   **Example File:** `users_router.py` / `users.routes.ts`
+*   **Example Outline (Python/FastAPI):**
+    ```python
+    # src/api/routers/users_router.py
+    from fastapi import APIRouter, Depends
+    # Assume schemas (Pydantic models) and services are imported
+    # from ...app.services.auth_service import AuthService
+    # from ..dependencies import get_auth_service # Example dependency injection
+    # from ..schemas.user_schemas import UserCreate, UserRead
+
+    router = APIRouter(
+        prefix="/users",
+        tags=["users"]
+    )
+
+    @router.post("/", response_model=UserRead) # Define response model using schema
+    async def create_user(
+        user_data: UserCreate, # Define request body using schema
+        # auth_service: AuthService = Depends(get_auth_service) # Inject service
+    ):
+        # Instructions: Implement endpoint logic.
+        # 1. Call the appropriate service method (e.g., auth_service.register_user).
+        # 2. Handle potential exceptions from the service.
+        # 3. Return the result conforming to the response_model.
+        # Example call: return await auth_service.register_user(user_data=user_data)
+        pass # Placeholder
+    ```
+*   **Instructions:** Define routers for different resource types (e.g., `/products`, `/orders`).
+
+<!-- Add descriptions for other key modules/directories as they are created -->
+
+## 4. Data Flow
+
+<!-- Describe how data flows through the system for key operations. Diagrams can be helpful. -->
+**Instructions:** Explain the path data takes during important processes.
+
+**Example: User Registration Request**
+1.  HTTP POST request hits `/api/users/` endpoint (`src/api/routers/users_router.py`).
+2.  Router validates request body against `UserCreate` schema.
+3.  Router calls `auth_service.register_user()` (`src/app/services/auth_service.py`).
+4.  Service performs business logic (validation, password hashing).
+5.  Service calls `user_repository.create_user()` (`src/app/repositories/user_repository.py` - *Assuming repository layer exists*).
+6.  Repository interacts with the database via ORM (`src/db/models/user_model.py`).
+7.  Data/response flows back up the chain to the user.
+
+<!-- Describe other important data flows -->
+
+## 5. Key Design Decisions & Trade-offs
+
+<!-- Document significant architectural choices and why they were made. -->
+**Instructions:** Record important decisions and their rationale.
+
+*   **Decision:** Chose [Framework/Library X] over [Alternative Y].
+    *   **Reason:** [e.g., Faster development cycle, better performance for specific task, team familiarity].
+    *   **Trade-off:** [e.g., Steeper learning curve, less flexibility in area Z].
+*   **Decision:** Using [Pattern A, e.g., Repository Pattern] for data access.
+    *   **Reason:** [e.g., Decouples business logic from data source specifics, improves testability].
+    *   **Trade-off:** [e.g., Adds boilerplate code].
+
+<!-- Add other key decisions --> 
