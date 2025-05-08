@@ -51,21 +51,6 @@ The core workflow involves:
 | Performance & Observability | Plans define success thresholds; profiling/logging from start.                                      |
 | Exploration vs Hardening | Explicit two-phase model: prototype (permissive) → hardening (strict rules).                          |
 
-## Project Structure and Foundation Documents (`.cursor/`)
-
-All Vibe Coding artifacts are in the `.cursor` directory. The AI should be aware of these and can request access to them for context.
-
-* **`.cursor/rules/design.mdc`**: Single source of truth for UX/UI. Describes user flows, layouts, interactions, visual elements, and accessibility.
-* **`.cursor/rules/tech-stack.mdc`**: Defines all project technologies: languages, frameworks, libraries, databases, APIs, tools, and critical tech constraints.
-* **`.cursor/rules/architecture.mdc`**: Blueprint of the codebase: structure, components, interactions, data flow, design patterns, communication protocols. *This document is dynamic and updated by the AI as guided by prompts.*
-* **`.cursor/rules/style-guides/`**: Directory containing specific coding style, formatting, commenting, and naming conventions (e.g., `python.mdc`, `react.mdc`).
-* **`.cursor/rules/rules.mdc`**: **Core AI operational rules.** Defines AI behavior, interaction with documents, coding standards, and prompt safety. *This file is often marked "alwaysApply" and is a primary source for AI conduct.*
-* **`.cursor/rules/implementation-plan-[feature-name].mdc`**: Detailed, step-by-step guide for building a feature. Includes goals, actions, validation criteria, risks, progress markers per step.
-    * **Must start with `Step 0: Test Scaffold`**.
-    * **Must end with `Step n: Clean Up and Testing`**.
-* **`.cursor/prompts/`**: Reusable prompt templates for consistent AI interaction (e.g., `prompt-1-generate-implementation-plan.md`, `prompt-2-implement-plan.md`). These use placeholders like `[feature-name]`.
-* **`.cursor/archive/`**: Stores completed and validated implementation plans.
-
 ## The Workflow: AI-Assisted Implementation
 
 This iterative process uses the Coding AI, guided by documents in `.cursor/rules/`.
@@ -88,6 +73,21 @@ This iterative process uses the Coding AI, guided by documents in `.cursor/rules
     * Use `prompt-4-review-completed-plan.md`. AI verifies, updates core docs, creates final report in plan, archives plan.
 7.  **General Context Updates:**
     * Use `prompt-5-update-context-doc.md` for ad-hoc updates to core documents.
+
+## Project Structure and Foundation Documents (`.cursor/`)
+
+All Vibe Coding artifacts are in the `.cursor` directory. The AI should be aware of these and can request access to them for context.
+
+* **`.cursor/rules/design.mdc`**: Single source of truth for UX/UI. Describes user flows, layouts, interactions, visual elements, and accessibility.
+* **`.cursor/rules/tech-stack.mdc`**: Defines all project technologies: languages, frameworks, libraries, databases, APIs, tools, and critical tech constraints.
+* **`.cursor/rules/architecture.mdc`**: Blueprint of the codebase: structure, components, interactions, data flow, design patterns, communication protocols. *This document is dynamic and updated by the AI as guided by prompts.*
+* **`.cursor/rules/style-guides/`**: Directory containing specific coding style, formatting, commenting, and naming conventions (e.g., `python.mdc`, `react.mdc`).
+* **`.cursor/rules/rules.mdc`**: **Core AI operational rules.** Defines AI behavior, interaction with documents, coding standards, and prompt safety. *This file is often marked "alwaysApply" and is a primary source for AI conduct.*
+* **`.cursor/rules/implementation-plan-[feature-name].mdc`**: Detailed, step-by-step guide for building a feature. Includes goals, actions, validation criteria, risks, progress markers per step.
+    * **Must start with `Step 0: Test Scaffold`**.
+    * **Must end with `Step n: Clean Up and Testing`**.
+* **`.cursor/prompts/`**: Reusable prompt templates for consistent AI interaction (e.g., `prompt-1-generate-implementation-plan.md`, `prompt-2-implement-plan.md`). These use placeholders like `[feature-name]`.
+* **`.cursor/archive/`**: Stores completed and validated implementation plans.
 
 ## Standardized Prompts (`.cursor/prompts/`) - Overview
 
