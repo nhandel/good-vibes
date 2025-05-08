@@ -1,9 +1,22 @@
-<!-- 
-Template for Prompt: Begin Implementation Plan
-Use this to start executing the first step of a new implementation plan.
-Replace [feature-name] with the actual filename.
+<!--
+<promptSpec>
+    <goal>To instruct the AI editor to execute the first (or current) step of an implementation-plan-[feature-name].mdc.</goal>
+    <usage>
+        <scenario>Use within an AI-assisted editor (e.g., Cursor) when starting implementation of a plan.</scenario>
+        <tooling>AI-assisted coding editor.</tooling>
+        <placeholders>
+            <placeholder name="[feature-name]">The name of the feature corresponding to the plan.</placeholder>
+        </placeholders>
+        <notes>Ensure the relevant implementation-plan-[feature-name].mdc is in .cursor/rules/. The AI will perform a 4-stage process for the step: Understand Validation -> Execute/Self-Correct -> Update Context (plan progress) -> Report.</notes>
+    </usage>
+    <nextSteps>
+        <step>Thoroughly review the AI's code changes and its report for the executed step.</step>
+        <step>Perform all manual validation checks defined for the step in the plan.</step>
+        <step>If validation fails (despite AI self-correction), use prompt-3.5-continue-with-clarification.md. Do not proceed.</step>
+        <step>If successful, move to prompt-3-continue-plan.md for the next step.</step>
+    </nextSteps>
+</promptSpec>
 -->
-
 Please implement the following implementation plan `.cursor/rules/implementation-plan-[feature-name].mdc`
 
 As context review, `.cursor/rules/` using the workflow (`vibe-coding.mdc`), rules (`rules.mdc`)  and context documents (`architecture.mdc`, `tech-stack.mdc`, `design.mdc`).
@@ -30,7 +43,4 @@ Follow these steps in order:
     *   A clear explanation of how the user can manually validate that the step was completed successfully (if applicable, beyond automated tests).
     *   Confirmation that all tasks in this list (validation success, document updates, progress marking) have been performed.
 
-<!--DONE-->
-
 **Your thoughtful and precise execution of this step is critical. A customer will use this functionality. Let's focus on executing this step flawlessly. Proceed!**
-

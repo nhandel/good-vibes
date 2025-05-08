@@ -1,12 +1,28 @@
 ---
-description: The architecture.mdc document is the primary blueprint for the codebase, detailing its high-level structure, key modules or components, their interactions, and the data flow patterns between them. Consult this document when you need to understand the system's overall organization, make decisions about where new code or components should reside, or ensure your changes align with established architectural patterns for a maintainable and scalable system.
+description: This document serves as the high-level blueprint for the codebase, detailing its structure, key components, and their interactions. The AI requests this file to understand system organization and ensure new code aligns with established architectural patterns.
 globs: 
 alwaysApply: false
 ---
-<!-- 
-This is a template for the Architecture Document.
-This document evolves as the project is built. Start with the high-level structure and update it after implementing features.
-Replace placeholders with your project's specific architectural details.
+<!--
+<vibeSpec>
+    <purpose>This document serves as the high-level blueprint for the codebase, detailing its structure, key components, and their interactions. The AI requests this file to understand system organization and ensure new code aligns with established architectural patterns.</purpose>
+    <scope>
+        *   High-Level System Overview: Brief description/diagram of main parts and responsibilities.
+        *   Directory & File Structure Conventions: Guidelines for code organization.
+        *   Key Modules/Components/Services: Identification, description, responsibilities, and public interfaces (APIs).
+        *   Data Flow Patterns: Descriptions or diagrams (e.g., Mermaid sequence diagrams) showing data movement.
+        *   Key Design Patterns Employed: (e.g., MVC, Microservices, Repository Pattern).
+        *   Communication Protocols (Internal): How system parts interact (e.g., REST, gRPC, Message Queues).
+        *   Database Schema Overview (Conceptual): High-level description of key entities and relationships (not full DDL).
+    </scope>
+    <nonScope>
+        *   Detailed UI mockups or user flows (`design.mdc`).
+        *   Minor library choices unless architecturally significant (`tech-stack.mdc`).
+        *   Implementation details of individual functions/methods.
+        *   Exhaustive lists of every file/class; focus on structure and patterns.
+    </nonScope>
+    <usageNotes>Initial draft generated via `prompt-0-context-setup.md`. This is a "living document" updated throughout development, either via `prompt-5-update-context-doc.md` or as specified within implementation plan steps after validation. Requires regular human review. AI Agents should request this document when needing to understand system structure or placement of new components.</usageNotes>
+</vibeSpec>
 -->
 
 # Project Architecture: [Your Project Name]

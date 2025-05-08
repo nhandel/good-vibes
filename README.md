@@ -2,7 +2,11 @@
 
 ## Overview
 
-AI coding assistants accelerate development but require clear guidance to avoid creating unmanageable codebases, especially on complex projects. This guide outlines a structured workflow using planning documents and iterative, validated execution to keep AI collaborators focused and productive, resulting in clean, maintainable code.
+AI coding assistants can really speed things up, but just winging it with prompts, especially on bigger or long-term projects, often leads to messy, hard-to-manage code that eats up any time you saved. That's where this Vibe Coding Workflow Guide comes in. It's a straightforward, organized way to get the most out of AI assistants by treating them as smart collaborators you guide, not tools that run on autopilot.
+
+This guide lays out a clear, step-by-step process with firm boundaries. This keeps your AI focused on *your* project's architecture, design, and standards, not wandering off. We emphasize solid planning *before* diving into code, and then checking each implementation step. This really helps keep your code quality high and the project on track. A huge piece of the puzzle is giving the AI the right information – **context is king** for LLMs, after all. By setting up good foundation documents, rules, and specific prompts, your AI gets the understanding it needs to write code that's on point and actually maintainable.
+
+You can enforce strict standards using `rules.mdc` and your own style guides, but the system is also customizable and designed to work well with the latest AI coding tools. Vibe Coding is all about keeping you and your AI assistant working together smoothly to build clean, solid, and well-documented software.
 
 The core workflow involves:
 
@@ -29,289 +33,158 @@ The core workflow involves:
 
 > **Mental checkpoint — "If I can't explain the diff, I don't accept."**
 
-## Tooling Workflow
+### Tools
+* Cursor or Windsurf or Cline or Roo or etc. I use cursor with a combination of gemini 2.5 4.1 and claude 3.7
+Superwhisper or whisperflow or any others I use superwhisper
+ * Repoprompt or Pastemax I use pastemax
+ * Frontier Models Gemini, Claude or OpenAI etc. I use Gemini 2.5 Pro and o3 primarily
+ * 
 
-This Vibe Coding framework is designed to be used with a specific AI-assisted development workflow:
+## How to vibe code
 
-1.  **Implementation Plan Generation (Initial Planning):**
-    * Utilize a **frontier model AI** with a very large context window (e.g., via a browser interface).
-    * Employ tools like **RepoPrompt** or **PasteMax** to provide the AI with the entire codebase context.
-    * Use `prompt-1-generate-implementation-plan.md` with this setup to generate the detailed `implementation-plan-[feature-name].mdc`. This leverages the large context capabilities for comprehensive planning.
+This framework employs a structured, iterative process for AI-assisted development, leveraging different tools and prompts for planning and execution:
 
-2.  **Implementation Execution (Coding):**
-    * Use an AI-assisted coding editor like **Cursor** or **Windsurf**.
-    * Configure the editor with the rules defined in `.cursor/rules/rules.mdc` and the various style guides in `.cursor/rules/style-guides/`.
-    * The remaining prompts (`prompt-0-update-context-doc.md`, `prompt-2-implement-plan.md`, `prompt-3-continue-plan.md`, `prompt-3.5-continue-with-clarification.md`, `prompt-4-review-completed-plan.md`) are designed to be used within this editor environment for iterative development.
+0.  **Initial Project Setup & Core Document Generation:**
+    *   **Copy `.cursor` Template:** If starting a new project or adopting this workflow, copy the `vibe-coding/.cursor` directory contents into your project root, creating a `.cursor` folder.
+    *   **Customize Style Guides:** Review the example style guides in `.cursor/rules/style-guides/`. Adapt them to your project's languages and conventions, deleting any unnecessary ones.
+    *   **Generate Core Context Docs:**
+        *   **Tooling:** Use a **frontier AI model** with a large context window (e.g., via a browser interface).
+        *   **Input Context Preparation:**
+            *   Gather the content of the `vibe-coding/README.md` (this file) to provide the AI with workflow and document structure definitions.
+            *   If working on an existing codebase, prepare relevant code snippets or a high-level summary using tools like **RepoPrompt** or **PasteMax**.
+            *   Prepare a detailed project description, goals, target users, and known technical constraints. Tools like **Superwhisper** can be used to transcribe a spoken overview.
+            *   Have the content of any drafted style guides ready.
+        *   **Execution:**
+            *   Paste all the prepared context (README content, code snippets/summary, project description/transcription, style guides) into the corresponding placeholders within `prompt-0-context-setup.md`.
+            *   Submit this completed prompt to the frontier AI model.
+        *   **Output:** The AI will generate initial drafts of `.cursor/rules/architecture.mdc`, `.cursor/rules/design.mdc`, and `.cursor/rules/tech-stack.mdc`.
+        *   **Crucial Human Review:** Meticulously review and refine these AI-generated drafts. Ensure they accurately reflect your project, adhere to the structures defined in this README, and provide a solid foundation. *Do not proceed until these documents are reviewed and approved.*
+
+1.  **Implementation Plan Generation:**
+    *   **Tooling:** Typically uses the same **frontier AI model** setup as Step 0.
+    *   **Input Context Preparation:**
+        *   Define the specific feature (`[feature-name]`, `[feature-description]`).
+        *   Prepare relevant existing code snippets (`[relevant-code]`).
+        *   Ensure the reviewed and approved core context documents (`architecture.mdc`, `design.mdc`, `tech-stack.mdc`), `rules.mdc`, `README.md`, and relevant style guides are ready.
+    *   **Execution:**
+        *   Paste all required context into the placeholders within `prompt-1-generate-implementation-plan.md`.
+        *   Submit this completed prompt to the frontier AI model.
+    *   **Output:** The AI generates a detailed `implementation-plan-[feature-name].mdc` in `.cursor/rules/`.
+    *   **Crucial Human Review:** Thoroughly review this plan. Verify it includes `Step 0: Test Scaffold` and `Step n: Clean Up and Testing`. Ensure steps are logical, atomic, and have clear validation. Refine manually as needed.
+
+2.  **Iterative Implementation (Step-by-Step Execution):**
+    *   **Tooling:** Switch to an AI-assisted coding editor (e.g., **Cursor**, **Windsurf**) configured with `.cursor/rules/rules.mdc` and style guides. Ensure the generated/reviewed `implementation-plan-[feature-name].mdc` is present in the local `.cursor/rules/` directory.
+    *   **Begin Plan (First Step):**
+        *   Use `prompt-2-implement-plan.md` within the editor, replacing `[feature-name]`.
+        *   The AI executes the first step (usually `Step 0`) using its 4-stage process (Understand Validation -> Execute/Self-Correct -> Update Context -> Report).
+    *   **Continue Plan (Subsequent Steps):**
+        *   After validating the previous step, use `prompt-3-continue-plan.md` within the editor, replacing `[feature-name]`.
+        *   The AI executes the next incomplete step using the same 4-stage process.
+    *   **Human Validation:** After each step execution by the AI, meticulously review the code changes and the AI's report. Perform all manual validation checks defined in the plan.
+
+3.  **Handling Issues During Implementation:**
+    *   If AI self-correction fails during its execution stage, or if your validation identifies problems:
+        *   Use `prompt-3.5-continue-with-clarification.md` within the editor.
+        *   Provide error logs, your explanation, and a clear fix request.
+
+4.  **Final Plan Review & Archival:**
+    *   Once all steps in the plan (including Step n) are 'Completed':
+        *   Use `prompt-4-review-completed-plan.md` within the editor, replacing `[feature-name]`.
+        *   The AI verifies completion, ensures core document consistency (updating if needed), appends a final report to the plan, and moves the plan to `.cursor/archive/`.
+    *   Review the final report and confirm core documents are up-to-date.
+
+5.  **Ad-Hoc Core Document Updates:**
+    *   For updates needed outside of a specific plan's execution:
+        *   Use `prompt-5-update-context-doc.md` (likely with the frontier AI model, providing necessary context).
 
 ## Project Structure and Foundation Documents
 
-All context documents, rules, prompts, and archives reside within the `.cursor` directory at the project root.
+All Vibe Coding artifacts are located within the `.cursor/` directory structure. These documents and prompts work together to guide the AI, ensuring a structured and controlled development process. For `.mdc` files, detailed specifications (purpose, scope, non-scope, usage notes) are embedded as XML comments (`<!-- <vibeSpec>...</vibeSpec>`) at the top of each file; always refer to these for comprehensive details.
 
-### Design Document (`.cursor/rules/design.mdc`)
+### Workflow Governance (`.cursor/rules/`)
 
-* **Purpose:** This document is the single source of truth for the User Experience (UX) and User Interface (UI) of the project. It meticulously describes what the end-user sees, interacts with, and how those interactions flow. Its primary goal is to provide the AI with unambiguous instructions on the "look and feel" and behavior of the application from a user's perspective, preventing the AI from making subjective or arbitrary design choices.
-* **What Belongs:**
-    * **User Flows & Journeys:** Detailed descriptions of how users navigate through the application to achieve specific goals (e.g., "User Registration Flow," "Product Purchase Journey").
-    * **UI Layout & Structure:** Descriptions or textual wireframes of screens, pages, and key components. This includes the placement of elements, navigation patterns, and overall information architecture.
-    * **Key Interactions:** Specifics on how users interact with UI elements (e.g., "Clicking the 'Submit' button validates the form and displays a success message," "Dragging an item from list A to list B triggers X action").
-    * **Visual Elements (Descriptive):** Descriptions of visual styling, branding elements (if any), and overall aesthetic, if not covered by a separate style guide. For example, "Buttons should have rounded corners and a primary blue background."
-    * **Accessibility Considerations:** Notes on how the design supports users with disabilities (e.g., "All images must have descriptive alt text," "Keyboard navigation must be fully supported").
-* **What Does NOT Belong:**
-    * Code implementation details (e.g., "Use a `<div>` with class `container`").
-    * Specific front-end frameworks or libraries (these go in `tech-stack.mdc`).
-    * Database schema or backend API endpoint definitions (these belong in `architecture.mdc` or API specifications).
-    * Keep technology-specific coupling (e.g., Tailwind, GraphQL) in **Tech-Stack**, *not* in **Design**. Prompt Safety applies here as well: any insecure suggestion must be challenged.
-* **Creation:** Use a Planning AI to generate the initial `design.mdc` based on your project idea, high-level requirements, and target user. Review and refine this document thoroughly with a human eye to ensure clarity and completeness before any coding begins.
+These files define how the Vibe Coding process itself operates and the rules the AI must follow.
 
-### Tech Stack Document (`.cursor/rules/tech-stack.mdc`)
+*   **`rules.mdc`**:
+    *   **Purpose & Content:** Defines the AI's operational rules, interaction protocols (meta-rules), core project conventions, coding standards, and references to style guides. This is a critical document for controlling AI behavior. Contains its own `<vibeSpec>` header.
+    *   **AI Usage:** **Always provided as context to the AI for all code-generating or modifying tasks.** It governs the AI's behavior throughout the entire workflow.
+    *   **Updates:** Manually updated by the development team as project standards evolve. The AI does not modify this file.
+*   **`vibe-coding.mdc`**:
+    *   **Purpose & Content:** This document previously held detailed definitions for other `.mdc` files. It now serves as a high-level pointer, reminding users that detailed specifications for `architecture.mdc`, `design.mdc`, `tech-stack.mdc`, `rules.mdc`, and implementation plans are embedded directly within those files as `<vibeSpec>` XML headers.
+    *   **AI Usage:** May be occasionally referenced by the AI if explicitly included in context, primarily to understand the self-documenting nature of other `.mdc` files.
+    *   **Updates:** Manually updated if the overall documentation strategy changes.
 
-* **Purpose:** This document explicitly defines all technologies chosen for the project. It serves as a reference for the AI to ensure it uses the correct languages, frameworks, libraries, and tools, and adheres to any specified versions or constraints. This prevents the AI from introducing incompatible or unapproved technologies.
-* **What Belongs:**
-    * **Programming Languages & Versions:** (e.g., Python 3.9+, JavaScript ES2020).
-    * **Frameworks & Major Libraries:** (e.g., React 18.x, Django 4.x, Express.js, Pandas, NumPy). Specify versions if critical.
-    * **Databases:** (e.g., PostgreSQL 15, MongoDB 6.0, Redis).
-    * **APIs (External):** List of critical third-party APIs the project will integrate with.
-    * **Build Tools & Package Managers:** (e.g., Webpack, Vite, npm, pip, Maven).
-    * **Testing Frameworks & Tools:** (e.g., Jest, PyTest, Selenium).
-    * **Deployment Environment / Cloud Services (Key ones):** (e.g., Docker, AWS EC2, Firebase Hosting).
-    * **Critical Constraints or Non-Functional Requirements impacting technology:** (e.g., "Must be deployable on a Linux server," "Real-time data processing required," "State management via Redux").
-* **What Does NOT Belong:**
-    * Application architecture or data flow diagrams (these go in `architecture.mdc`).
-    * UI design specifications (these go in `design.mdc`).
-    * Detailed coding standards (these go in specific style guide files in `.cursor/rules/style-guides/` or `rules.mdc`).
-    * Business logic descriptions.
-* **Creation:** Use a Planning AI, informed by the `design.mdc` and project requirements, to recommend the simplest, most robust technology stack. Review this recommendation carefully, make adjustments based on team expertise and project constraints, and then finalize the document.
+### Core Context Documents (`.cursor/rules/`)
 
-### Architecture Document (`.cursor/rules/architecture.mdc`)
+These documents establish the foundational knowledge for the project, defining its technical and design parameters. They are living documents, primarily updated by the AI during plan execution or via `prompt-5-update-context-doc.md`, with human review and approval being crucial.
 
-* **Purpose:** This document is the blueprint of the codebase. It describes how the software is structured, how its components interact, and the patterns that govern its organization. It guides the AI in creating a maintainable, scalable, and logically organized system.
-* **What Belongs:**
-    * **High-Level System Overview:** A brief description of the system's main parts and their overall responsibilities.
-    * **Directory & File Structure Conventions:** Guidelines on how code should be organized into folders and files (e.g., "Feature modules reside in `src/features/`," "Utility functions in `src/utils/`").
-    * **Key Modules/Components/Services:** Identification and description of major logical blocks of the application, their primary responsibilities, and their public interfaces (APIs).
-    * **Data Flow Patterns:** How data moves through the system (e.g., "User input from UI is processed by X service, stored in Y database, and then Z component reads from Y"). Diagrams can be described textually.
-    * **Key Design Patterns Employed:** (e.g., MVC, MVVM, Microservices, Event-Driven Architecture, Repository Pattern).
-    * **Communication Protocols (Internal):** How different parts of the system talk to each other (e.g., REST APIs between frontend and backend, message queues for asynchronous tasks).
-    * **Database Schema Overview (Conceptual):** High-level description of key data entities and their relationships, not a full SQL DDL.
-* **What Does NOT Belong:**
-    * Detailed UI mockups or user flows (these are in `design.mdc`).
-    * Specific choices of minor libraries unless they are architecturally significant (most library choices are in `tech-stack.mdc`).
-    * Implementation details of individual functions or methods.
-    * Exhaustive lists of every file or class; focus on the structural elements and patterns.
-    * User-facing documentation.
-* **Creation:** Create an initial empty `architecture.mdc`. This document is dynamic and will be primarily populated and updated by the Coding AI (guided by your prompts) as implementation progresses. After each significant feature or step is validated, you will instruct the AI to update this document to reflect the current state of the codebase. Regular human review is crucial.
+*   **`architecture.mdc`**:
+    *   **Purpose & Content:** This document serves as the high-level blueprint for the codebase. It details the overall system overview, directory and file structure conventions, key modules/components and their responsibilities, data flow patterns, critical design patterns employed, and internal communication protocols.
+    *   **AI Usage:** Requested by the AI agent to understand system structure, ensure new components are placed correctly, and that new code aligns with established architectural patterns.
+    *   **Updates:** Can be updated by the AI during plan steps (as specified in the plan) or via `prompt-5-update-context-doc.md`.
+*   **`design.mdc`**:
+    *   **Purpose & Content:** Defines the target User Experience (UX) and User Interface (UI) of the project. It includes descriptions of user flows/journeys, textual wireframes or UI layout descriptions, key user interactions, and accessibility considerations.
+    *   **AI Usage:** Requested by the AI agent when implementing or modifying UI elements or any features that directly affect user interaction.
+    *   **Updates:** Can be updated by the AI during plan steps (as specified in the plan) or via `prompt-5-update-context-doc.md`.
+*   **`tech-stack.mdc`**:
+    *   **Purpose & Content:** Lists all approved technologies, programming languages, frameworks, libraries, databases, APIs, build tools, testing frameworks, and deployment considerations, including versions.
+    *   **AI Usage:** Requested by the AI agent to verify allowed dependencies, select appropriate tools, or confirm platform-specific details during code generation.
+    *   **Updates:** Can be updated by the AI during plan steps (as specified in the plan) or via `prompt-5-update-context-doc.md`.
+
+### Feature Implementation Lifecycle
+
+This group of artifacts directly supports the process of developing and tracking features.
+
+*   **Implementation Plans (`.cursor/rules/implementation-plan-[feature-name].mdc`)**:
+    *   **Purpose & Content:** A detailed, step-by-step plan for implementing a specific feature, generated by `prompt-1-generate-implementation-plan.md`. Each plan includes goals, actions (with TDD), validation criteria, risk assessment, and progress markers for every step. Contains its own `<vibeSpec>` header detailing its structure.
+    *   **AI Usage:** Manually provided as primary context to the AI when executing `prompt-2-implement-plan.md`, `prompt-3-continue-plan.md`, `prompt-3.5-continue-with-clarification.md`, and `prompt-4-review-completed-plan.md` within an editor. The AI updates the `Progress:` marker in this file after successfully validating each step.
+    *   **Updates:** `Progress` markers updated by AI; content refined manually before execution.
+*   **Plan Archive (`.cursor/archive/`)**:
+    *   **Purpose & Content:** Stores completed implementation plans and their final reports.
+    *   **AI Usage:** Automatically populated by `prompt-4-review-completed-plan.md` when a plan is successfully finalized. The AI does not typically read from this directory unless specifically instructed for historical analysis.
 
 ### Style Guides (`.cursor/rules/style-guides/`)
 
-* **Purpose:** This directory contains one or more Markdown files (`.mdc`) detailing specific coding style, formatting, commenting, naming conventions, and other quality standards for the project. These guide the AI in producing clean, consistent, and maintainable code.
-* **What Belongs:**
-    * **Formatting Rules:** Guidelines for consistent code formatting (e.g., indentation, line length, brace style).
-    * **Naming Conventions:** Rules for variables, functions, classes, files, etc. (e.g., `camelCase` for variables, `PascalCase` for classes).
-    * **Commenting Standards:** Expectations for code comments (e.g., "All public methods must have docstrings," "Explain complex logic blocks").
-    * **Language-Specific Best Practices:** Conventions specific to the languages used in the `tech-stack.mdc`.
-    * **Project-Specific Patterns:** Preferred ways of structuring common code patterns within the project.
-* **What Does NOT Belong:**
-    * General project architecture (in `architecture.mdc`).
-    * Tech stack choices (in `tech-stack.mdc`).
-    * Feature-specific implementation details.
-* **Creation:**
-    * Start with common style guides for your chosen languages/frameworks.
-    * Adapt and extend them with project-specific preferences. Can be generated or refined with AI assistance.
-    * These are referenced during the "Clean Up and Testing" phase of an implementation plan.
+This directory contains specific coding style guides for different programming languages used in the project.
 
-### Coding Rules (`.cursor/rules/rules.mdc` or similar configuration)
-
-* **Purpose:** This configuration file (or set of rules within the AI editor) dictates *how* the AI should behave during the development process. It defines overarching coding standards, best practices, and, most importantly, how the AI must interact with the foundational documents (`design.mdc`, `tech-stack.mdc`, `architecture.mdc`, style guides) and implementation plans. These rules are critical for ensuring consistency and adherence to the defined project structure and process. They should remain relatively stable throughout the project.
-* **What Belongs:**
-    * **General Coding Standards (if not in dedicated style guides):**
-        * High-level formatting, naming, commenting guidelines if not detailed elsewhere.
-    * **AI Meta-Rules (Interaction Rules):**
-        * Instructions on when and how to consult context documents (e.g., "Always read `architecture.mdc` before creating new modules").
-        * Rules for following implementation plans (e.g., "Execute only one step at a time from the plan," "Update 'Progress' marker after step validation").
-        * Instructions for updating context documents post-implementation (e.g., "After a feature is complete, prompt user to confirm updates to `architecture.mdc`").
-        * **Prompt Safety:** The AI must refuse or ask for clarification if an instruction would introduce TODOs, insecure code (hard-coded secrets, unsanitised input, missing tests promised in Step 0, etc.). Security scanners (Bandit, Snyk) run in CI to enforce this rule.
-    * **Project-Specific Conventions & Best Practices:**
-        * Modularity guidelines (e.g., "Avoid circular dependencies between modules").
-        * Error handling strategies (e.g., "Use specific custom exception types for domain errors").
-        * Testing preferences (e.g., "For every new public function, a corresponding unit test must be created," "Strive for TDD: define tests in plan steps before implementation actions").
-        * Security considerations (e.g., "Sanitize all user inputs").
-* **What Does NOT Belong:**
-    * The content of `design.mdc`, `tech-stack.mdc`, `architecture.mdc`, or specific style guide files themselves.
-    * Specific implementation plans for features.
-    * Project requirements or user stories.
-    * This file defines the *process and standards*, not the *project's substance*.
-* **Creation:**
-    * Generate initial rules based on `tech-stack.mdc` using editor features (if available) for language-specific standards.
-    * Manually add rules for project structure, modularity, error handling, TDD preferences, and other best practices.
-    * Crucially, add the meta-rules governing AI interaction with documents and plans. Mark essential rules like "Read Core Documents" as "Always Apply" or equivalent in your AI editor's configuration.
-
-### Implementation Plan (`.cursor/rules/implementation-plan-[feature-name].mdc`)
-
-* **Purpose:** A detailed, step-by-step guide for the Coding AI to build a specific feature or refactor a part of the project. Each plan focuses on a distinct unit of work.
-* **What Belongs:**
-    * **Frontmatter:** Metadata such as `description`, optional `globs` (file patterns affected), and `alwaysApply: false`.
-    * **Overall Plan Goal:** A clear statement of what the entire plan aims to achieve.
-    * **Core Documents Potentially Affected:** A list of core documents (e.g., `architecture.mdc`, `tech-stack.mdc`) that might need updates as the plan progresses.
-    * **Sequenced Steps:** Each step should include:
-        * **Step Goal:** A concise description of the step's objective.
-        * **Actions:** A numbered list of specific, small, logical tasks for the AI to perform. This can include code snippets for context or as part of the instructions. Test creation or modification actions should be defined *before* code implementation actions to encourage Test-Driven Development (TDD).
-        * **Design Specifications (if applicable):** Clarity on specific design elements being added or modified within the scope of this plan.
-        * **Validation Criteria:** Explicit instructions for verifying the step's successful completion (e.g., "Write unit tests for function X and ensure they pass," "Run the application and verify feature Y behaves as described," "Check REPL logs for Z output").
-        * **Risks:** Potential issues or challenges specific to the step.
-        * **Core Document Updates (for the step):** Explicit mention of which core documents might need updating upon successful completion of *this specific step*.
-        * **Progress Marker:** A status indicator with valid values `Progress: Not Started`, `Progress: In Progress`, and `Progress: Completed` (usually initialised to `Not Started`).
-    * **Mandatory First Step (`Step 0: Test Scaffold`):** Details the creation of failing test stubs for all behavioral specifications of the feature.
-    * **Mandatory Last Step (`Step n: Clean Up and Testing`):** Details the final code refinement process. This includes removing all temporary code/artifacts, addressing minor issues, ensuring adherence to all project standards (style guides, tech stack, naming conventions, comments), checking for overall codebase consistency, performing any necessary refactoring for quality, and executing the complete suite of feature-related tests to confirm everything passes and the code is commit-ready.
-    * **Contextual Code (Optional):** Relevant code snippets or references to existing code to provide necessary context to the Planning AI.
-* **What Does NOT Belong:**
-    * Vague, overly broad, or ambiguous steps.
-    * Steps lacking clear, testable validation criteria.
-    * Core project-level rules or AI meta-rules (these belong in `rules.mdc`).
-    * General project documentation or design specifications *not directly tied to the plan's execution* (these belong in the core documents).
-* **Creation:**
-    * Use `prompt-1-generate-implementation-plan.md` (typically with a frontier model AI and tools like RepoPrompt/PasteMax for full codebase context) to create a new `.cursor/rules/implementation-plan-[feature-name].mdc`.
-    * Thoroughly review this plan. Ensure it includes `Step 0: Test Scaffold` and `Step n: Clean Up and Testing` (with comprehensive code polish actions). Make any necessary manual refinements.
-
-### Standardized Prompts (`.cursor/prompts/`)
-
-* **Purpose:** A collection of reusable prompt templates to ensure consistent, effective, and workflow-aligned interaction with the Coding AI.
-* **What Belongs:**
-    * **Prompt Templates:** Markdown files containing pre-defined instructions for the AI for various workflow stages. These templates include:
-        * Placeholders for dynamic information (see "Placeholder Conventions" below).
-        * Contextual instructions referencing core documents and plan files.
-        * Workflow guidance (e.g., "Execute only the specified step," "Update the 'Progress' marker").
-        * Explanatory HTML-style comments (``) for the human user.
-* **Creation:**
-    * The `.cursor/prompts/` directory and its initial set of prompt templates are included in the project template/repository.
-    * Users **must** replace the placeholders in these templates with project-specific information before use.
-    * For prompts like `prompt-1-generate-implementation-plan.md`, detailed feature descriptions can be dictated using tools like Super Whisper (or similar voice-to-text technology) and inserted into the designated placeholder.
-* **Placeholder Conventions:**
-    * Placeholders are denoted by square brackets, e.g., `[placeholder-name]`.
-    * **Common Placeholders to Replace:**
-        * `[feature-name]`: A descriptive name for a new feature, used for naming the implementation plan file (e.g., `implementation-plan-[feature-name].mdc`) and referencing it. Used in: `prompt-1-generate-implementation-plan.md`, `prompt-2-implement-plan.md`, `prompt-3-continue-plan.md`, `prompt-4-review-completed-plan.md`, `prompt-3.5-continue-with-clarification.md`.
-        * `[step-number]`: The specific step number within an implementation plan. Used in: `prompt-3.5-continue-with-clarification.md`.
-        * `[core-doc-filename.mdc]`: The filename of a core document to be updated (e.g., `architecture.mdc`, `design.mdc`, `tech-stack.mdc`). Used in: `prompt-0-update-context-doc.md`.
-        * `[topic of change]`: A brief description of the change being made to a core document. Used in: `prompt-0-update-context-doc.md`.
-        * `[list of precise changes]`: Specific instructions for updating a core document. Used in: `prompt-0-update-context-doc.md`.
-        * `[relevant-code]`: Placeholder for relevant code snippets or context for plan generation. Used in: `prompt-1-generate-implementation-plan.md`.
-        * `[feature-description]`: Placeholder for the detailed feature description for plan generation. Used in: `prompt-1-generate-implementation-plan.md`.
-        * `[error-or-log-output]`: A section where you paste relevant error messages or log output. Used in: `prompt-3.5-continue-with-clarification.md`.
-        * `[explanation]`: User explanation of an issue. Used in: `prompt-3.5-continue-with-clarification.md`.
-        * `[clarification]`: User's specific question or fix request. Used in: `prompt-3.5-continue-with-clarification.md`.
-
-### Archive (`.cursor/archive/`)
-
-* **Purpose:** Stores completed and validated implementation plans for historical reference, knowledge sharing, and project auditability.
-* **What Belongs:**
-    * Completed implementation plan files (Markdown format) that have been fully executed, with all steps validated and marked as 'Completed', have a final report appended, and have undergone a final review.
-* **Creation:**
-    * The `.cursor/archive/` directory is included in the project template/repository. Plans are moved here from `.cursor/rules/` after they are fully completed and reviewed using `prompt-4-review-completed-plan.md`.
-
-## The Workflow: AI-Assisted Implementation
-
-This iterative process uses the Coding AI, guided by the context documents and implementation plans stored in `.cursor/rules/`.
-
-1.  **Plan Generation & Review:**
-    * Use `prompt-1-generate-implementation-plan.md` with a **frontier AI model** (large context window) and tools like **RepoPrompt/PasteMax** to provide full codebase context and create a new `.cursor/rules/implementation-plan-[feature-name].mdc`.
-    * Thoroughly review this plan. Ensure it includes `Step 0: Test Scaffold` and `Step n: Clean Up and Testing` (with comprehensive code polish actions). Make any necessary manual refinements.
-2.  **Begin Implementation (First Step):**
-    * Within your AI-assisted editor (e.g., **Cursor**, **Windsurf**), use `prompt-2-implement-plan.md` (replacing `[feature-name]`).
-    * The AI will execute the first available step (usually Step 0) following its internal 4-stage process:
-        1.  **Understand Validation Criteria** for the current plan step.
-        2.  **Execute Actions:** Implement TDD, run initial validation, attempt self-correction (up to 3 times if validation fails).
-        3.  **Update Context:** Update relevant core documents as specified in the plan step, mark step as 'Completed'.
-        4.  **Report & Review:** Provide a summary of changes, how to manually validate, and confirm tasks.
-    * You (the human) review the AI's changes, the report, and perform manual validation if needed.
-3.  **Continue Implementation (Subsequent Steps):**
-    * Use `prompt-3-continue-plan.md` (replacing `[feature-name]`).
-    * The AI identifies the next incomplete step and executes it using the same 4-stage process described above.
-    * Review and validate each step's output.
-4.  **Handling Issues During a Step:**
-    * If the AI's self-correction (stage 2.3 of its process) fails, or if you identify issues, use `prompt-3.5-continue-with-clarification.md`. Provide error logs, an explanation, and a specific clarification or fix request.
-5.  **Iterate:** Repeat step 3 (and 4 if needed) until all plan steps, including `Step n: Clean Up and Testing`, are marked 'Completed'.
-6.  **Final Plan Review & Archival:**
-    * Once all steps in `implementation-plan-[feature-name].mdc` are complete, use `prompt-4-review-completed-plan.md`.
-    * The AI will verify all steps are completed, assess core documents for consistency, update them if needed, create a final report at the end of the plan document, and then move the plan to `.cursor/archive/`.
-7.  **General Context Updates (As Needed):**
-    * Use `prompt-0-update-context-doc.md` for any ad-hoc updates to core documents that arise outside the direct execution of an implementation plan step.
+*   **Purpose & Content:** Houses individual `.mdc` files (e.g., `python-style-guide.mdc`, `typescript-style-guide.mdc`) that detail language-specific formatting, naming conventions, and best practices.
+*   **AI Usage:** Referenced by the AI during code generation and cleanup steps, as directed by `rules.mdc`, to ensure code consistency.
+*   **Updates:** Manually updated by the development team. The AI does not modify these files.
 
 ## Standardized Prompts (`.cursor/prompts/`)
 
-Store these templates in the `.cursor/prompts/` directory for consistent interaction with the AI. Replace bracketed placeholders (e.g., `[feature-name]`) with actual values before use. These prompts are designed to guide the AI through the development workflow.
+These prompt templates ensure consistent and effective interaction with the AI throughout the Vibe Coding workflow. **For complete details on each prompt's usage, specific placeholders, and the AI's expected behavior, always refer to the `<promptSpec>` XML header at the beginning of the respective prompt file.**
 
-*(Note: `prompt-1-generate-implementation-plan.md` is typically used with a frontier model AI in a browser setting with full codebase context, while prompts 0, 2, 3, 3.5, and 4 are designed for use within an AI-assisted editor like Cursor.)*
+*(General Note: Prompts `prompt-0-context-setup.md`, `prompt-1-generate-implementation-plan.md`, and `prompt-5-update-context-doc.md` are typically used with a frontier AI model (e.g., via a browser interface) that can handle larger contexts. Prompts `prompt-2-implement-plan.md`, `prompt-3-continue-plan.md`, `prompt-3.5-continue-with-clarification.md`, and `prompt-4-review-completed-plan.md` are designed for use within an AI-assisted editor environment like Cursor.)*
 
-### `.cursor/prompts/prompt-0-update-context-doc.md`
-* **Goal:** To instruct the AI to make specific, targeted updates to one of the core context documents (`architecture.mdc`, `tech-stack.mdc`, or `design.mdc`).
-* **How to Use:**
-    * Use this prompt when a core document needs changes that were identified outside of an implementation plan's explicit "Core Document Updates" section, or based on discussions.
-    * Specify the `[topic of change]` for context.
-    * Provide the exact `[core-doc-filename.mdc]` to be modified.
-    * Clearly list the precise changes the AI needs to make (e.g., "Add Library X to tech-stack.mdc under Core Libraries," "Update the description of Module Y in architecture.mdc").
-* **Your Next Steps:**
-    * Review the specified core document (`.cursor/rules/[core-doc-filename.mdc]`) to ensure the AI has integrated the requested changes accurately and clearly.
-    * Verify that the changes maintain the existing format and style of the document.
-    * Confirm that the document now correctly reflects the intended updates.
-
-### `.cursor/prompts/prompt-1-generate-implementation-plan.md`
-* **Goal:** To have a Planning AI generate a new, detailed, step-by-step implementation plan for a specific feature or enhancement, ensuring it starts with test scaffolding and ends with comprehensive cleanup and testing.
-* **How to Use:**
-    * Use this at the beginning of a new feature development cycle, typically with a frontier model AI and tools like RepoPrompt/PasteMax providing the entire codebase as context.
-    * Provide a clear `[feature-description]` and `[relevant-code]` context.
-    * Specify the `[feature-name]` which will be used to name the output plan file (e.g., `implementation-plan-[feature-name].mdc`).
-    * The AI is instructed to read the existing core documents in `.cursor/rules/` for context and ensure the generated plan includes `Step 0: Test Scaffold` and `Step n: Clean Up and Testing` (which covers code polish, standards adherence, commenting, naming, and full test execution).
-* **Your Next Steps:**
-    * Carefully review the newly created `.cursor/rules/implementation-plan-[feature-name].mdc` file.
-    * Check for:
-        * **Clarity and Logic:** Are the steps well-defined, logical, and easy to understand?
-        * **Granularity:** Are the steps small and specific enough for the AI to execute reliably?
-        * **Completeness per Step:** Does each step have a clear goal, a list of actions, robust validation criteria, risks, and identified core document updates?
-        * **TDD Adherence:** Are test creation/modification actions defined *before* implementation actions within each step?
-        * **Mandatory Steps:** Does the plan correctly include `Step 0: Test Scaffold` and the detailed `Step n: Clean Up and Testing`?
-        * **Progress Markers:** Is `Progress: Not Started` present for every step?
-    * Make any necessary manual adjustments or clarifications to the plan to ensure its quality and readiness before starting implementation.
-
-### `.cursor/prompts/prompt-2-implement-plan.md`
-* **Goal:** To instruct the Coding AI to start executing an implementation plan (or the first step of a new one) by following a structured 4-stage process for the step.
-* **How to Use:**
-    * Use this within an AI-assisted editor (e.g., Cursor) when you are ready to begin coding the first step of an implementation plan (`.cursor/rules/implementation-plan-[feature-name].mdc`).
-    * Specify the `[feature-name]` corresponding to the plan.
-    * The AI will execute the identified step (usually Step 0) via: 1. Understanding Validation, 2. Executing Actions (TDD, its own validation, self-correction loop), 3. Updating Context documents and plan progress, 4. Reporting & Reviewing.
-* **Your Next Steps:**
-    * Thoroughly review the code changes generated by the AI for the step.
-    * Examine the AI's comprehensive report.
-    * Perform any manual validation defined for the step.
-    * **If Validation Fails (despite AI self-correction):** Refer to `prompt-3.5-continue-with-clarification.md`. Do not proceed to the next step in the main plan.
-
-### `.cursor/prompts/prompt-3-continue-plan.md`
-* **Goal:** To instruct the Coding AI to execute the next incomplete step in an ongoing implementation plan, using the same 4-stage process as `prompt-2`.
-* **How to Use:**
-    * After a step has been successfully completed and validated using `prompt-2` or a previous `prompt-3`. Use within an AI-assisted editor.
-    * Specify the `[feature-name]` corresponding to the plan (`.cursor/rules/implementation-plan-[feature-name].mdc`).
-    * The AI will identify the next step marked 'Not Started' (or 'In Progress') and execute it following the 4-stage process (Understand Validation, Execute Actions, Update Context, Report & Review).
-* **Your Next Steps:**
-    * Same as for `prompt-2-implement-plan.md`: review code, report, and perform manual validation for the completed step.
-    * If validation fails, use `prompt-3.5-continue-with-clarification.md`.
-
-### `.cursor/prompts/prompt-3.5-continue-with-clarification.md`
-* **Goal:** To guide the AI in fixing issues encountered during a step validation when its initial self-correction attempts were insufficient.
-* **How to Use:**
-    * When a step executed via `prompt-2` or `prompt-3` (within an AI-assisted editor) fails your validation, or the AI's self-correction doesn't resolve the issue.
-    * Provide the `[feature-name]`, the `[step-number]` that failed, relevant `[error-or-log-output]`, your `[explanation]` of the problem, and a specific `[clarification]` or fix request.
-* **Your Next Steps:**
-    * Review the AI's suggested fix and code review summary.
-    * Re-run validations for the step. If it now passes, you can update progress and context documents (potentially manually or by re-running the relevant part of `prompt-2`/`prompt-3`'s reporting logic for that step), and then proceed with `prompt-3-continue-plan.md` for the *next* step in the plan.
-
-### `.cursor/prompts/prompt-4-review-completed-plan.md`
-* **Goal:** To perform a final review of a fully implemented plan, ensure core documents are consistent, generate a final report within the plan, and archive the plan.
-* **How to Use:**
-    * Once all steps in `.cursor/rules/implementation-plan-[feature-name].mdc` are marked 'Completed', including `Step n: Clean Up and Testing`. Use within an AI-assisted editor.
-    * Specify the `[feature-name]`.
-    * The AI will: 1. Verify all plan steps are complete, 2. Assess core documents, 3. Update core documents if needed, 4. Create a final report at the end of the plan document, 5. Move the plan to `.cursor/archive/`.
-* **Your Next Steps:**
-    * Review the final report appended to the plan in the archive.
-    * Confirm core documents are accurately updated.
-    * The feature development cycle for this plan is now complete.
+*   **`prompt-0-context-setup.md`**:
+    *   **Purpose/Description:** Generates initial drafts of the core context documents for a new or existing project. Used at the very beginning of a project or when adopting the Vibe Coding workflow.
+    *   **Key Inputs:** `vibe-coding/README.md` content, project description/goals, existing code snippets (if any), and paths to style guides. Placeholders: `[.cursor-copied]`, `[relevant-code]`, `[user-provided-context]`.
+    *   **Key Outputs/Interactions:** Creates initial versions of `.cursor/rules/architecture.mdc`, `design.mdc`, and `tech-stack.mdc`.
+*   **`prompt-1-generate-implementation-plan.md`**:
+    *   **Purpose/Description:** Generates a new, detailed, step-by-step implementation plan for a specific feature. Used at the start of a new feature development cycle.
+    *   **Key Inputs:** Feature name and description, relevant existing code snippets, and all core context documents (`architecture.mdc`, `design.mdc`, `tech-stack.mdc`, `rules.mdc`), `README.md`, and style guides. Placeholders: `[feature-name]`, `[feature-description]`, `[relevant-code]`.
+    *   **Key Outputs/Interactions:** Creates a new `.cursor/rules/implementation-plan-[feature-name].mdc` file.
+*   **`prompt-2-implement-plan.md`**:
+    *   **Purpose/Description:** Instructs the AI coding editor to start executing an implementation plan, beginning with the first step (usually "Step 0: Test Scaffold").
+    *   **Key Inputs:** The `[feature-name]` (to locate the corresponding plan), the implementation plan itself, and all core context documents.
+    *   **Key Outputs/Interactions:** Modifies project code files as per the plan step, updates the `Progress` marker in the `implementation-plan-[feature-name].mdc`, and potentially updates core context documents if specified by the plan step.
+*   **`prompt-3-continue-plan.md`**:
+    *   **Purpose/Description:** Instructs the AI coding editor to execute the next incomplete step in an ongoing implementation plan.
+    *   **Key Inputs:** The `[feature-name]`, the implementation plan, and all core context documents.
+    *   **Key Outputs/Interactions:** Modifies project code files, updates the `Progress` marker in the plan, and potentially updates core context documents, similar to `prompt-2`.
+*   **`prompt-3.5-continue-with-clarification.md`**:
+    *   **Purpose/Description:** Used when a plan step execution fails validation, to provide the AI with error details and specific instructions for correction.
+    *   **Key Inputs:** `[feature-name]`, `[step-number]` that failed, `[error-or-log-output]`, user's `[explanation]` of the problem, and a specific `[clarification]` or fix request. Consumes the implementation plan and core context documents.
+    *   **Key Outputs/Interactions:** Modifies project code files to attempt a fix. Aims to get the current step to a 'Completed' state.
+*   **`prompt-4-review-completed-plan.md`**:
+    *   **Purpose/Description:** Performs a final review of a fully implemented plan. Verifies completion, ensures core documents are consistent, generates a final report within the plan, and archives it.
+    *   **Key Inputs:** The `[feature-name]`, the completed implementation plan, and all core context documents.
+    *   **Key Outputs/Interactions:** Potentially updates core context documents, appends a final report to the `implementation-plan-[feature-name].mdc`, and then moves this plan file to the `.cursor/archive/` directory.
+*   **`prompt-5-update-context-doc.md`**:
+    *   **Purpose/Description:** Instructs the AI to make specific, targeted updates to one of the core context documents (`architecture.mdc`, `tech-stack.mdc`, or `design.mdc`) outside of an active implementation plan.
+    *   **Key Inputs:** `[topic of change]`, the `[core-doc-filename.mdc]` to be modified, and clear instructions from the user detailing the required changes.
+    *   **Key Outputs/Interactions:** Modifies the specified core context document in `.cursor/rules/`.
 
 ---
 

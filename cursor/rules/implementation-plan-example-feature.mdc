@@ -3,10 +3,26 @@ description:
 globs: 
 alwaysApply: false
 ---
-<!-- 
-This is a template for an Implementation Plan.
-Replace placeholders with the actual steps for a specific feature or task.
-Generated using a Planning AI (like Prompt 5) based on Design, Tech Stack, Architecture, and the feature request.
+<!--
+<vibeSpec>
+    <purpose>This document provides a detailed, step-by-step guide with TDD actions and validation criteria for implementing a specific feature. It is the primary input artifact used by the AI during coding prompts (like prompt-2 and prompt-3) to execute development tasks.</purpose>
+    <scope>
+        *   Frontmatter: `description`, `phase` (Exploration/Hardening), optional `globs`, `alwaysApply: false`.
+        *   Overall Plan Goal: Clear statement of the plan's objective.
+        *   Core Documents Potentially Affected: List for context/potential updates.
+        *   Sequenced Steps: Each must include: `Step Goal`, `Actions` (TDD), `Validation Criteria`, `Risks`, `Core Document Updates`, `Progress Marker`.
+        *   Mandatory First Step: `Step 0: Test Scaffold` (creating failing test stubs).
+        *   Mandatory Last Step: `Step n: Clean Up and Testing` (code polish, standards check, final test runs).
+        *   (Optional) Contextual Code: Snippets for AI context.
+    </scope>
+    <nonScope>
+        *   Vague, ambiguous, or large, monolithic steps.
+        *   Steps without clear, testable validation.
+        *   Core project-level rules (defined in `rules.mdc`).
+        *   General project documentation not tied to the plan's execution.
+    </nonScope>
+    <usageNotes>Generated via `prompt-1-generate-implementation-plan.md`. Requires thorough human review before execution. The `Progress Marker` within the plan is updated by the AI during execution (via `prompt-2-implement-plan.md` or `prompt-3-continue-plan.md`). AI Agents executing prompts 2, 3, 3.5, 4 always have the relevant plan as context.</usageNotes>
+</vibeSpec>
 -->
 
 description: Implementation Plan for User Profile Editing Feature

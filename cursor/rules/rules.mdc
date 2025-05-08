@@ -3,6 +3,23 @@ description:
 globs: 
 alwaysApply: true
 ---
+<!--
+<vibeSpec>
+    <purpose>This file dictates the AI's operational behavior, defining meta-rules for document interaction, plan execution, prompt safety, and core project conventions. It is always provided as context to govern the AI's process throughout the development workflow.</purpose>
+    <scope>
+        *   AI Meta-Rules (Interaction Rules): How the AI works - when/how to consult documents (e.g., `architecture.mdc`, `design.mdc`, `tech-stack.mdc`), how to execute plan steps (one step at a time, TDD focus), how to update plan progress markers, Prompt Safety enforcement (refuse unsafe actions, ask clarifying questions).
+        *   Project-Specific Conventions & Best Practices: High-level guidelines on modularity, error handling strategies, testing preferences (e.g., TDD enforcement level), core security considerations (e.g., input sanitization rules).
+        *   (Optional) General Standards: Pointers to specific style guides found in `.cursor/rules/style-guides/`.
+    </scope>
+    <nonScope>
+        *   Content of other core documents (`design.mdc`, `tech-stack.mdc`, `architecture.mdc`, specific style guides).
+        *   Specific implementation plans.
+        *   Project requirements or user stories (these inform `design.mdc` and plans).
+    </nonScope>
+    <usageNotes>Manually curated document defining the AI's operating parameters and interaction protocols. Expected to be relatively stable. AI Editor configuration should leverage these rules where possible (e.g., marking critical meta-rules as "Always Apply"). **This document is always provided as context to the AI and is generally not updated by the AI.**</usageNotes>
+</vibeSpec>
+-->
+
 # --- AI Core Operating Instructions ---
 # These rules are ALWAYS in context. Adhere to them.
 # For detailed workflow, document purposes, and prompt usage, consult `.cursor/rules/vibe-coding.mdc`.
@@ -94,13 +111,18 @@ alwaysApply: true
     Update `architecture.mdc`, `tech-stack.mdc`, `design.mdc` ONLY when instructed by:
     1. An implementation plan step (via `prompt-2` or `prompt-3`).
     2. The final review process (`prompt-4-review-completed-plan.md`).
-    3. `prompt-0-update-context-doc.md`.
+    3. `prompt-5-update-context-doc.md`.
     Integrate changes clearly, maintaining document format.
 
 - rule: Adhere to Style Guides (Especially Final Step)
   trigger: always
   instruction: |
     During `Step n: Clean Up and Testing` (detailed in `prompt-1-generate-implementation-plan.md`) and when modifying code, ensure strict adherence to relevant guides in `.cursor/rules/style-guides/`.
+
+- rule: Never edit `vibe-coding.mdc` or any file in `styles-guides`
+  trigger: always
+  instruction: |
+    Never update `vibe-coding.mdc` or any file in `styles-guides`
 
 # --- V. Version Control (Guideline) ---
 - rule: Git Commit Hygiene

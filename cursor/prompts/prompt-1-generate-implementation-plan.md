@@ -1,12 +1,26 @@
-<!-- 
-Template for Prompt: Generate Feature Implementation Plan
-Use this with a Planning AI to create a new implementation plan.
-Replace [feature-name], [feature-description], [relevant-code] placeholders.
+<!--
+<promptSpec>
+    <goal>To create a detailed, step-by-step implementation-plan-[feature-name].mdc for a new feature, including test scaffolding and cleanup steps.</goal>
+    <usage>
+        <scenario>Use at the start of a new feature.</scenario>
+        <tooling>Intended for a frontier AI model (e.g., browser) with broad context access (e.g., RepoPrompt).</tooling>
+        <placeholders>
+            <placeholder name="[feature-name]">The specific name for the feature (used in the output filename).</placeholder>
+            <placeholder name="[feature-description]">A clear and detailed description of the feature.</placeholder>
+            <placeholder name="[relevant-code]">Snippets of existing code relevant to the new feature.</placeholder>
+        </placeholders>
+        <notes>The AI is instructed to use existing .cursor/rules/ documents (architecture.mdc, design.mdc, tech-stack.mdc, rules.mdc) and style guides for context. The output plan should be saved to .cursor/rules/implementation-plan-[feature-name].mdc.</notes>
+    </usage>
+    <nextSteps>
+        <step>Review the generated .cursor/rules/implementation-plan-[feature-name].mdc.</step>
+        <step>Check for: clarity, logical flow, atomic steps, TDD (tests before code), inclusion of Step 0: Test Scaffold and Step n: Clean Up and Testing, validation criteria, risk assessment per step, and core document update identification.</step>
+        <step>Manually refine the plan as needed before starting implementation.</step>
+    </nextSteps>
+</promptSpec>
 -->
-
-Follow instructions in `.cursor/rules/` using the workflow (`vibe-coding.mdc`), rules (`rules.mdc`)  and context documents (`architecture.mdc`, `tech-stack.mdc`, `design.mdc`).
-
-Based on these documents and the following feature request:
+Generate a new, detailed implementation plan to be saved as `.cursor/rules/implementation-plan-[feature-name].mdc`.
+Refer to the `vibe-coding/README.md` (which you must have in context) for the required structure of an implementation plan.
+Feature Request:
 Name: [feature-name]
 Description: [feature-description]
 
@@ -14,19 +28,23 @@ As context, here are relevant parts of the codebase:
 [relevant-code]
 
 Generate a new, detailed implementation plan in Markdown format. The plan should:
-*   Be saved as `.cursor/rules/implementation-plan-[feature-name].mdc`.
-*   Include small, specific, logical steps. Each step should represent an atomic unit of work that can be implemented and validated independently.
-*   For each step, include specific validation criteria (e.g., tests to write/pass, manual checks). Define test creation/modification *before* implementation actions within the step (TDD approach).
-*   Include a 'Progress: Not Started' marker for each step which we will then update as the steps are completed.
-*   Explicitly note which core documents (`architecture.mdc`, `tech-stack.mdc`, `design.mdc`) should serve as context and which might need updating after each step is successfully validated.
-*   The generated plan **must** begin with `Step 0: Test Scaffold`** as the first step, following the pattern described in the vibe coding guide (`vibe-coding.mdc`).
-*   The generated plan **must** end with `Step n: Clean Up and Testing`** as the ffinalirst step, following the pattern described in the vibe coding guide (`vibe-coding.mdc`).
-*   Small code snippets are acceptable as sub-bullet points in the actions section, but limit there use to only when words are not sufficient to describe logic.
-*   Consider failure paths given all of the available context. List them as risks and provide validation such that we do not deviate from a clear path from beginning to end.
+*   The implementation plan must be saved as `.cursor/rules/implementation-plan-[feature-name].mdc` and strictly follow the structure and guidelines in `vibe-coding/README.md`.
+*   Break down the plan into small, specific, atomic steps—each representing a logical unit of work that can be independently implemented and validated.
+*   Each step must include:
+    - **Goal:** Clear objective for the step.
+    - **Actions:** List of actions, with test creation/modification (TDD) always preceding implementation. Use small code snippets only when necessary for clarity.
+    - **Validation Criteria:** Explicit criteria (e.g., tests to write/pass, manual checks) to confirm the step is complete.
+    - **Risks:** Potential failure paths and how validation addresses them.
+    - **Core Document Updates:** Which core documents (`architecture.mdc`, `tech-stack.mdc`, `design.mdc`) provide context and which may require updates after the step.
+    - **Progress Marker:** `Progress: Not Started` (to be updated as steps are completed).
+*   The plan must always begin with `Step 0: Test Scaffold` (detailing creation of failing test stubs) and end with `Step n: Clean Up and Testing` (covering final code refinement, standards adherence, and full testing), following the patterns in the vibe coding guide.
+*   For each step, explicitly note relevant context documents and any that might need updating.
+*   If context is insufficient for robust planning, clearly state the ambiguity and make a reasoned assumption.
+*   Ensure all risks and validation criteria are considered to maintain a clear, successful path from start to finish.
 
 **This step is critical and must be completed thoughtfully. It sets the course and keeps our code author on track enabling success. The importance of this task cannot be overstated.**
 
-Use the following implementation plan format:
+Use the following implementation plan format example as a guide for your output:
 
 ```markdown
 ---
@@ -37,12 +55,12 @@ alwaysApply: false
 
 # Implementation Plan: Feature Z
 
-**Goal:** [Overall goal of this plan]
+**Goal:** [Overall goal of this plan, e.g., To implement a new service for processing Z-type data and exposing it via an API endpoint.]
 
 **Core Documents Potentially Affected:** architecture.mdc, tech-stack.mdc
 
 ## Step 0: Test Scaffolding
-*   **Goal:** Enumerate all behavioral specifications as failing test stubs.
+*   **Goal:** Enumerate all behavioral specifications for Feature Z as initially failing test stubs.
 *   **Actions:**
     1.  **Test Stubs:** For each requirement of Feature Z, create a corresponding failing unit test stub in `tests/features/test_featureZ_service.py`. Examples:
         *   `test_featureZ_handles_null_input()`

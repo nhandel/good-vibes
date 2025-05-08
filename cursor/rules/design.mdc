@@ -1,11 +1,25 @@
 ---
-description: A description of the project design including a high level overview, user flows, UI layout, key interactions, ux requirements, etc.
+description: This file defines the target user experience (UX) and user interface (UI), including user flows and key interactions. AI agents request this document when implementing or modifying user-facing features to ensure alignment with the intended design.
 globs: 
 alwaysApply: false
 ---
-<!-- 
-This is a template for the Design Document. 
-Replace the instructional placeholders below with the specific details of your project's user experience and interface design.
+<!--
+<vibeSpec>
+    <purpose>This file defines the target user experience (UX) and user interface (UI), including user flows and key interactions. AI agents request this document when implementing or modifying user-facing features to ensure alignment with the intended design.</purpose>
+    <scope>
+        *   User Flows & Journeys: Detailed descriptions of user navigation for specific goals (e.g., "User Registration Flow," "Product Purchase Journey").
+        *   UI Layout & Structure: Descriptions or textual wireframes of screens/pages/components, including element placement and navigation patterns.
+        *   Key Interactions: Specifics of UI element interactions (e.g., button clicks, drag-and-drop results).
+        *   Visual Elements (Descriptive): Descriptions of styling, branding, and overall aesthetic (unless a separate style guide covers this). Example: "Buttons should have rounded corners and a primary blue background."
+        *   Accessibility Considerations: Notes on supporting users with disabilities (e.g., alt text requirements, keyboard navigation support).
+    </scope>
+    <nonScope>
+        *   Code implementation details (e.g., specific HTML tags or CSS classes).
+        *   Specific front-end framework/library choices (these belong in `tech-stack.mdc`).
+        *   Database schema or backend API endpoint definitions (these belong in `architecture.mdc`).
+    </nonScope>
+    <usageNotes>Initial draft generated via `prompt-0-context-setup.md` based on project idea/requirements. Requires thorough human review and refinement before coding. Can be updated via `prompt-5-update-context-doc.md` if UX/UI requirements change significantly. AI Agents should request this when needing to understand user-facing aspects or implement UI changes.</usageNotes>
+</vibeSpec>
 -->
 
 # Project Design Document: [Your Project Name]

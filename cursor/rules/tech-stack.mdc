@@ -1,12 +1,29 @@
 ---
-description: A description of the project's tech stack including core languages and runtimes, frameworks, libraries, databases, APIs and External Services, Dev Tools and Critical technical requirements or constraints
+description: This document explicitly lists all approved technologies, libraries, tools, and their versions for the project. The AI requests this file to confirm allowed dependencies and platform specifics before adding libraries or writing environment-specific code.
 globs: 
 alwaysApply: false
 ---
-<!-- 
-This is a template for the Tech Stack Document.
-Replace the instructional placeholders below with the specific technologies chosen for your project.
-Be precise about versions where applicable.
+<!--
+<vibeSpec>
+    <purpose>This document explicitly lists all approved technologies, libraries, tools, and their versions for the project. The AI requests this file to confirm allowed dependencies and platform specifics before adding libraries or writing environment-specific code.</purpose>
+    <scope>
+        *   Programming Languages & Versions: (e.g., Python 3.11+, Node.js 18.x).
+        *   Frameworks & Major Libraries: (e.g., React 18.x, FastAPI 0.100+, Pandas 2.x). Specify versions if critical.
+        *   Databases & Caching: (e.g., PostgreSQL 15, Redis 7).
+        *   APIs (External): List of critical third-party APIs integrated with.
+        *   Build Tools, Package Managers, Linters, Formatters: (e.g., Vite, npm, pip, Ruff, Prettier).
+        *   Testing Frameworks & Tools: (e.g., Pytest, Jest, Playwright).
+        *   Deployment Environment / Cloud Services: Key details (e.g., Docker, Target OS, AWS S3/EC2).
+        *   Critical Constraints: Non-functional requirements impacting technology (e.g., "Real-time data processing required").
+    </scope>
+    <nonScope>
+        *   Application architecture or data flow diagrams (`architecture.mdc`).
+        *   UI design specifications (`design.mdc`).
+        *   Detailed coding standards (specific style guides or `rules.mdc`).
+        *   Business logic descriptions.
+    </nonScope>
+    <usageNotes>Initial draft generated via `prompt-0-context-setup.md`. Requires careful human review and adjustment based on team expertise/project needs. Can be updated via `prompt-5-update-context-doc.md`. AI Agents should request this document to confirm allowed libraries, versions, or tools before adding dependencies or writing platform-specific code.</usageNotes>
+</vibeSpec>
 -->
 
 # Project Tech Stack: [Your Project Name]
