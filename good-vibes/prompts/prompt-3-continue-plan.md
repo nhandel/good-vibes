@@ -7,7 +7,7 @@
         <placeholders>
             <placeholder name="[feature-name]">The name of the feature corresponding to the plan.</placeholder>
         </placeholders>
-        <notes>Ensure the implementation-plan-[feature-name].mdc is in .cursor/rules/. The AI will find the next 'Not Started' or 'In Progress' step and execute it using the 4-stage process.</notes>
+        <notes>Ensure the implementation-plan-[feature-name].mdc is in .goodvibes/rules/. The AI will find the next 'Not Started' or 'In Progress' step and execute it using the 4-stage process.</notes>
     </usage>
     <nextSteps>
         <step>Thoroughly review the AI's code changes and its report for the executed step.</step>
@@ -17,7 +17,7 @@
     </nextSteps>
 </promptSpec>
 -->
-**Excellent work so far! Let's move to the next part of our plan: `.cursor/rules/implementation-plan-[feature-name].mdc`**
+**Excellent work so far! Let's move to the next part of our plan: `.goodvibes/rules/implementation-plan-[feature-name].mdc`**
 
 Carefully review the the implementation plan to identify the **next incomplete step**. This will be the first step marked as 'Progress: Not Started', or 'Progress: In Progress' if you are resuming an interrupted step. You are to execute **only this single identified step**.
 

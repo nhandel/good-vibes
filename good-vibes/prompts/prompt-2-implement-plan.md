@@ -7,7 +7,7 @@
         <placeholders>
             <placeholder name="[feature-name]">The name of the feature corresponding to the plan.</placeholder>
         </placeholders>
-        <notes>Ensure the relevant implementation-plan-[feature-name].mdc is in .cursor/rules/. The AI will perform a 4-stage process for the step: Understand Validation -> Execute/Self-Correct -> Update Context (plan progress) -> Report.</notes>
+        <notes>Ensure the relevant implementation-plan-[feature-name].mdc is in .goodvibes/rules/. The AI will perform a 4-stage process for the step: Understand Validation -> Execute/Self-Correct -> Update Context (plan progress) -> Report.</notes>
     </usage>
     <nextSteps>
         <step>Thoroughly review the AI's code changes and its report for the executed step.</step>
@@ -17,9 +17,9 @@
     </nextSteps>
 </promptSpec>
 -->
-Please implement the following implementation plan `.cursor/rules/implementation-plan-[feature-name].mdc`
+Please implement the following implementation plan `.goodvibes/rules/implementation-plan-[feature-name].mdc`
 
-As context review, `.cursor/rules/` using the workflow (`vibe-coding.mdc`), rules (`rules.mdc`)  and context documents (`architecture.mdc`, `tech-stack.mdc`, `design.mdc`).
+As context review, `.goodvibes/rules/` using the workflow (`good-vibes.mdc`), rules (`rules.mdc`)  and context documents (`architecture.mdc`, `tech-stack.mdc`, `design.mdc`).
 
 **When in doubt about the step instructions, ask a clarifying question before writing code.**
 

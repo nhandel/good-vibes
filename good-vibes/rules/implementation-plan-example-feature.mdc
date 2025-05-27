@@ -33,9 +33,74 @@ alwaysApply: false
 
 **Goal:** Allow authenticated users to view and update their profile information (username, email)
 
-**Core Documents Potentially Affected:** `architecture.mdc`, `design.mdc` (if UI changes significantly)
+## Implementation Context
 
----
+### User & Functional Perspective
+- **Problem Solved:** Users need to update their profile information without contacting administrators.
+- **Key Workflows:** User navigates to profile page, views current information, edits fields, and saves changes.
+- **Core Capabilities:** View profile data, validate input, update profile information, handle validation errors.
+
+### Technical Implementation
+- **Architecture Fit:** Extends existing user management functionality with profile editing capabilities.
+- **Affected Components:** User service, API endpoints, and profile UI components.
+- **Data Model Changes:** No schema changes needed, using existing user model.
+
+### Boundaries & Constraints
+- **Out of Scope:** Password changes, profile picture uploads, and account deletion.
+- **Limitations:** Email updates require unique validation.
+- **Unchanged Functionality:** Authentication flow and user permissions system.
+
+## Relevant Files
+
+- `src/api/schemas/user_schemas.py` - **MODIFY** - Add UserProfileUpdate and UserProfileRead schemas
+- `src/app/services/user_service.py` - **MODIFY** - Add update_user_profile method
+- `tests/app/services/test_user_service.py` - **MODIFY** - Add tests for update_user_profile
+- `src/api/routers/users_router.py` - **MODIFY** - Add profile update endpoint
+- `tests/api/test_users_api.py` - **MODIFY** - Add tests for profile update endpoint
+- `src/ui/components/profile/ProfileForm.jsx` - **NEW** - Create form component for profile editing
+- `src/ui/components/profile/ProfilePage.jsx` - **NEW** - Create page component for profile management
+- `src/ui/components/profile/ProfileForm.test.jsx` - **NEW** - Tests for profile form component
+
+## Core Documents Affected
+
+- `architecture.mdc` - Update API endpoints section (Step 3)
+  - Document new profile update endpoint
+  - Update UserService description to include profile management
+- `design.mdc` - Add user profile editing flow (Step 4)
+  - Include wireframes for profile editing UI
+  - Document form validation and error handling patterns
+
+## Success Metrics
+- All unit and integration tests pass with 90%+ coverage
+- Profile updates complete in under 500ms
+- Form validation provides clear feedback for all error conditions
+- UI is accessible and meets WCAG 2.1 AA standards
+
+## Step 0: Test Scaffolding
+*   **Goal:** Create failing test stubs for all profile editing functionality.
+*   **Actions:**
+    1.  **Test Stubs:** Create failing test stubs in `tests/app/services/test_user_service.py`:
+        *   `test_update_user_profile_success()`
+        *   `test_update_user_profile_user_not_found()`
+        *   `test_update_user_profile_email_conflict()`
+        *   `test_update_user_profile_partial_update()`
+    2.  **Test Stubs:** Create failing test stubs in `tests/api/test_users_api.py`:
+        *   `test_profile_update_endpoint_success()`
+        *   `test_profile_update_endpoint_unauthorized()`
+        *   `test_profile_update_endpoint_invalid_data()`
+        *   `test_profile_update_endpoint_email_conflict()`
+    3.  **Test Stubs:** Create failing test stubs for UI components:
+        *   `test_profile_form_renders_correctly()`
+        *   `test_profile_form_validation()`
+        *   `test_profile_form_submission()`
+*   **Validation:**
+    *   All test stubs are created in the appropriate test files.
+    *   Running the tests shows all new tests failing (as expected at this stage).
+*   **Risks:**
+    *   Some edge cases might be missed in the initial test design.
+    *   Test stubs might not cover all required validation rules for profile data.
+*   **Core Document Updates:** None for this step.
+*   **Progress:** Not Started
 
 ## Step 1: Define Data Structures & API Schema
 
@@ -99,26 +164,51 @@ alwaysApply: false
 
 ---
 
-## Step 4: Implement Frontend Profile Form (If Applicable)
+## Step 4: Implement Profile Edit UI
 
-*   **Goal:** Create the UI components for viewing and editing the profile.
+*   **Goal:** Create a user interface for viewing and editing profile information.
 *   **Actions:**
-    1.  **Instructions:** Create a new React component (or equivalent) named `UserProfileForm` in `src/ui/components/profile/`.
-    2.  **Instructions:** Fetch the current user's profile data when the component mounts.
-    3.  **Instructions:** Display the user's current username and email in input fields.
-    4.  **Instructions:** Add a "Save Changes" button.
-    5.  **Instructions:** On save, send a PATCH request to the `/api/users/me/profile` endpoint with the updated data.
-    6.  **Instructions:** Handle success (e.g., show a success message, update local state) and error responses (e.g., display error messages next to fields or globally).
-    7.  **Test:**
-        *   **Instructions:** Write component tests for `UserProfileForm` using [Testing Library, e.g., React Testing Library].
-        *   **Instructions:** Test rendering, data fetching simulation, form input changes, form submission (mocking the API call), success/error handling display.
+    1.  **Instructions:** Create a `ProfileForm` component in `src/ui/components/profile/ProfileForm.jsx` (or equivalent path).
+        *   The form should display the current user's profile information (username, email).
+        *   Include input fields for editing these values.
+        *   Add validation for email format.
+        *   Add a submit button and cancel button.
+        *   On submit, call the API endpoint created in Step 3.
+        *   Display success message on successful update.
+        *   Display appropriate error messages for validation failures or API errors.
+    2.  **Instructions:** Create a `ProfilePage` component in `src/ui/components/profile/ProfilePage.jsx` that includes the `ProfileForm` and any additional UI elements needed for the profile page.
+    3.  **Instructions:** Add the `ProfilePage` to the application's routing configuration.
+    4.  **Test:**
+        *   **Instructions:** Write unit tests for the `ProfileForm` component in `src/ui/components/profile/ProfileForm.test.jsx`.
+        *   **Instructions:** Test cases should include: form rendering, validation, submission handling, error display.
+        *   **Instructions:** Ensure all tests pass.
 *   **Validation:**
-    *   Verify the `UserProfileForm` component exists and renders correctly.
-    *   Run the component tests created in Action 7; all must pass.
-    *   (Manual Check) Navigate to the profile page in the running application, view the form, try editing fields, and save changes. Verify UI feedback for success and errors.
-*   **Core Document Updates:** `architecture.mdc` (add `UserProfileForm` component), `design.mdc` (update description of profile screen).
+    *   Verify the `ProfileForm` and `ProfilePage` components exist in the correct locations.
+    *   Run the unit tests created in Action 4; all must pass.
+    *   (Optional Manual Check) Navigate to the profile page in the application, verify the form displays correctly, test editing functionality, and confirm validation and error handling work as expected.
+*   **Risks:**
+    *   Form validation might not match backend validation rules, leading to confusing error messages.
+    *   UI components might not be fully accessible, requiring additional work to meet accessibility standards.
+    *   Error handling might not cover all possible API error responses.
+*   **Core Document Updates:** `design.mdc` (update UI components section to include the new profile editing UI).
 *   **Progress:** Not Started
 
 ---
 
-<!-- Instructions: Add more steps as needed for the feature. Keep steps small and focused. --> 
+## Step 5: Clean Up and Testing
+
+*   **Goal:** Finalize the implementation by polishing the code, ensuring adherence to coding standards, and running comprehensive tests.
+*   **Actions:**
+    1.  **Instructions:** Review all code changes for adherence to project coding standards.
+    2.  **Instructions:** Run all unit tests, integration tests, and UI tests to ensure everything passes.
+    3.  **Instructions:** Perform a manual review of the profile editing functionality to catch any visual or usability issues.
+    4.  **Instructions:** Document any issues found during testing and address them.
+*   **Validation:**
+    *   Verify all tests pass.
+    *   Confirm the profile editing UI works as expected and is visually appealing.
+    *   Review the code for adherence to coding standards.
+*   **Risks:**
+    *   Some edge cases might have been missed during testing.
+    *   Code might not fully adhere to coding standards, requiring additional cleanup.
+*   **Core Document Updates:** None for this step.
+*   **Progress:** Not Started

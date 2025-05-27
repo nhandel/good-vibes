@@ -1,6 +1,6 @@
 <!--
 <promptSpec>
-    <goal>To create a detailed, step-by-step implementation-plan-[feature-name].mdc for a new feature, including test scaffolding and cleanup steps.</goal>
+    <goal>To create a detailed, step-by-step implementation-plan-[feature-name].mdc for a new feature through an iterative two-phase process: (1) thorough requirements gathering via comprehensive questions, and (2) implementation plan generation.</goal>
     <usage>
         <scenario>Use at the start of a new feature.</scenario>
         <tooling>Intended for a frontier AI model (e.g., browser) with broad context access (e.g., RepoPrompt).</tooling>
@@ -9,42 +9,66 @@
             <placeholder name="[feature-description]">A clear and detailed description of the feature.</placeholder>
             <placeholder name="[relevant-code]">Snippets of existing code relevant to the new feature.</placeholder>
         </placeholders>
-        <notes>The AI is instructed to use existing .cursor/rules/ documents (architecture.mdc, design.mdc, tech-stack.mdc, rules.mdc) and style guides for context. The output plan should be saved to .cursor/rules/implementation-plan-[feature-name].mdc.</notes>
+        <notes>The AI is instructed to use existing .goodvibes/rules/ documents (architecture.mdc, design.mdc, tech-stack.mdc, rules.mdc) and style guides for context. The output plan should be saved to .goodvibes/rules/implementation-plan-[feature-name].mdc. The process is iterative, with the AI asking clarifying questions until sufficient context is gathered before generating the plan.</notes>
     </usage>
     <nextSteps>
-        <step>Review the generated .cursor/rules/implementation-plan-[feature-name].mdc.</step>
+        <step>Engage in the iterative questioning process to ensure all aspects of the feature are well understood.</step>
+        <step>Review the generated .goodvibes/rules/implementation-plan-[feature-name].mdc.</step>
         <step>Check for: clarity, logical flow, atomic steps, TDD (tests before code), inclusion of Step 0: Test Scaffold and Step n: Clean Up and Testing, validation criteria, risk assessment per step, and core document update identification.</step>
         <step>Manually refine the plan as needed before starting implementation.</step>
     </nextSteps>
 </promptSpec>
 -->
-Generate a new, detailed implementation plan to be saved as `.cursor/rules/implementation-plan-[feature-name].mdc`.
-Refer to the `vibe-coding/README.md` (which you must have in context) for the required structure of an implementation plan.
 Feature Request:
 Name: [feature-name]
 Description: [feature-description]
 
-As context, here are relevant parts of the codebase:
+Relevant code or context:
 [relevant-code]
 
-Generate a new, detailed implementation plan in Markdown format. The plan should:
-*   The implementation plan must be saved as `.cursor/rules/implementation-plan-[feature-name].mdc` and strictly follow the structure and guidelines in `vibe-coding/README.md`.
-*   Break down the plan into small, specific, atomic steps—each representing a logical unit of work that can be independently implemented and validated.
-*   Each step must include:
-    - **Goal:** Clear objective for the step.
-    - **Actions:** List of actions, with test creation/modification (TDD) always preceding implementation. Use small code snippets only when necessary for clarity.
-    - **Validation Criteria:** Explicit criteria (e.g., tests to write/pass, manual checks) to confirm the step is complete.
-    - **Risks:** Potential failure paths and how validation addresses them.
-    - **Core Document Updates:** Which core documents (`architecture.mdc`, `tech-stack.mdc`, `design.mdc`) provide context and which may require updates after the step.
-    - **Progress Marker:** `Progress: Not Started` (to be updated as steps are completed).
-*   The plan must always begin with `Step 0: Test Scaffold` (detailing creation of failing test stubs) and end with `Step n: Clean Up and Testing` (covering final code refinement, standards adherence, and full testing), following the patterns in the vibe coding guide.
-*   For each step, explicitly note relevant context documents and any that might need updating.
-*   If context is insufficient for robust planning, clearly state the ambiguity and make a reasoned assumption.
-*   Ensure all risks and validation criteria are considered to maintain a clear, successful path from start to finish.
+To create an effective implementation plan, you need to understand this feature from both user and technical perspectives. Ask the following questions (and any follow-ups needed):
 
-**This step is critical and must be completed thoughtfully. It sets the course and keeps our code author on track enabling success. The importance of this task cannot be overstated.**
+User & Functional Perspective:
+- What specific user problem does this feature solve?
+- How will users interact with this feature and what are the key workflows?
+- What are the core capabilities and expected inputs/outputs?
+- Are there any specific edge cases or error conditions to handle?
 
-Use the following implementation plan format example as a guide for your output:
+Technical Implementation:
+- How does this feature fit into the existing architecture?
+- Which existing components will be affected and how?
+- What new components, if any, need to be created?
+- Will this require changes to data models, APIs, or interfaces?
+- Does this feature align with patterns in our architecture.mdc?
+- Are there any new libraries, tools, or technologies needed?
+
+Boundaries & Constraints:
+- What is explicitly out of scope for this feature?
+- Are there any technical limitations or constraints to work within?
+- What existing functionality should remain unchanged?
+- Are there dependencies on other features or systems?
+- Are there any performance or security considerations?
+
+Ask clarifying follow-up questions until you have a complete understanding of the feature and there are no gaps in your knowledge. Continue this iterative questioning process until you feel confident in your ability to produce a comprehensive implementation plan.
+
+Once you have sufficient information, create a detailed implementation plan that:
+
+- Will be saved as `.goodvibes/rules/implementation-plan-[feature-name].mdc` following the structure in `.goodvibes/rules/good-vibes.md`
+- Includes a "Relevant Files" section listing all files to be created or modified with brief descriptions
+- Defines clear "Success Metrics" based on the gathered information
+- Breaks down the implementation into small, atomic steps that can be independently implemented and validated
+
+Each step should include:
+- Goal: Clear objective for the step
+- Actions: List of actions, with test creation/modification (TDD) always preceding implementation
+- Validation Criteria: Explicit criteria to confirm the step is complete
+- Risks: Potential failure paths and how validation addresses them
+- Core Document Updates: Which core documents provide context and which may require updates
+- Progress Marker: `Progress: Not Started` (to be updated as steps are completed)
+
+The plan should begin with "Step 0: Test Scaffold" and end with "Step n: Clean Up and Testing".
+
+Use the following format as a guide:
 
 ```markdown
 ---
@@ -57,7 +81,49 @@ alwaysApply: false
 
 **Goal:** [Overall goal of this plan, e.g., To implement a new service for processing Z-type data and exposing it via an API endpoint.]
 
-**Core Documents Potentially Affected:** architecture.mdc, tech-stack.mdc
+## Implementation Context
+
+### User & Functional Perspective
+- **Problem Solved:** Feature Z allows users to process and visualize Z-type data, addressing the need for [specific user problem].
+- **Key Workflows:** Users will upload Z data, configure processing parameters, and view results in an interactive dashboard.
+- **Core Capabilities:** Data validation, processing pipeline, visualization, and export functionality.
+
+### Technical Implementation
+- **Architecture Fit:** Integrates with existing data processing pipeline as a new service module.
+- **Affected Components:** Will enhance the existing upload service and dashboard components.
+- **Data Model Changes:** Requires new Z-data schema and processing result storage.
+
+### Boundaries & Constraints
+- **Out of Scope:** Real-time processing of Z data and integration with external systems.
+- **Limitations:** Initial version limited to processing files under 100MB.
+- **Unchanged Functionality:** Existing data export formats and user authentication flow.
+
+## Relevant Files
+
+- `src/services/feature_z_service.py` - **NEW** - Core service implementing Feature Z functionality
+- `src/services/feature_z_service_test.py` - **NEW** - Unit tests for Feature Z service
+- `src/api/routes/feature_z_routes.py` - **NEW** - API endpoints for Feature Z
+- `src/api/routes/feature_z_routes_test.py` - **NEW** - Tests for Feature Z API routes
+- `src/ui/components/FeatureZComponent.jsx` - **NEW** - UI component for Feature Z
+- `src/ui/components/FeatureZComponent.test.jsx` - **NEW** - Tests for Feature Z component
+- `src/services/upload_service.py` - **MODIFY** - Update to handle Z-type data files
+- `src/ui/components/Dashboard.jsx` - **MODIFY** - Integrate Feature Z visualization panel
+
+## Core Documents Affected
+
+- `architecture.mdc` - Add Feature Z service in the data processing section (Step 1)
+  - Document new service interactions with existing components
+  - Update data flow diagrams to include Z-data processing
+- `design.mdc` - Add new user flows for Feature Z (Step 4)
+  - Include wireframes for Z-data visualization panel
+  - Document user interaction patterns for configuration options
+- `tech-stack.mdc` - Add new visualization library dependencies (Step 2)
+
+## Success Metrics
+- Processing time for Z-data files under 5 seconds for files up to 50MB
+- UI response time under 200ms when interacting with visualization
+- 95% test coverage for new components
+- All accessibility requirements met for visualization components
 
 ## Step 0: Test Scaffolding
 *   **Goal:** Enumerate all behavioral specifications for Feature Z as initially failing test stubs.
@@ -122,7 +188,7 @@ alwaysApply: false
     2.  **Remove Temporary Artifacts:** Delete all temporary logging statements (e.g., `print()`, `console.log()`), debug flags/variables, commented-out old code, and any other development-specific constructs.
     3.  **Resolve Minor Issues:** Address any minor outstanding issues, TODOs, or FIXMEs that were noted during development and deferred for this final cleanup phase.
     4.  **Adherence to Standards & Consistency Review:**
-        *   Verify all new/modified code against the project's context documents including `tech-stack.mdc` and any style guides in `.cursor/rules/style-guides/`.
+        *   Verify all new/modified code against the project's context documents including `tech-stack.mdc` and any style guides in `.goodvibes/rules/style-guides/`.
         *   Ensure all functions, classes, and complex logic blocks have clear and appropriate comments.
         *   Check for consistent and meaningful variable names, function names, and class names, both within new files and in relation to the existing codebase.
         *   Review for overall consistency with the architecture and patterns of the existing codebase.

@@ -22,7 +22,7 @@
 </promptSpec>
 -->
 
-Read all core documents in `.cursor/rules/` (architecture.mdc, tech-stack.mdc, design.mdc) and the implementation plan `.cursor/rules/implementation-plan-[feature-name].mdc`.
+Read all core documents in `.goodvibes/rules/` (architecture.mdc, tech-stack.mdc, design.mdc) and the implementation plan `.goodvibes/rules/implementation-plan-[feature-name].mdc`.
 
 We attempted **Step [step-number]** but encountered the following errors or issues:
 

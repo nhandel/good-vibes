@@ -40,7 +40,7 @@ alwaysApply: false
 
 ```
 /
-|-- .cursor/             # AI configuration, rules, prompts, archive
+|-- .goodvibes/             # AI configuration, rules, prompts, archive
 |-- docs/                # Project documentation (outside AI context)
 |-- src/                 # Main source code directory
 |   |-- api/             # API endpoint definitions (e.g., FastAPI routers, Express routes)

@@ -5,13 +5,17 @@ alwaysApply: false
 ---
 <!--
 <vibeSpec>
-    <purpose>This file defines the target user experience (UX) and user interface (UI), including user flows and key interactions. AI agents request this document when implementing or modifying user-facing features to ensure alignment with the intended design.</purpose>
+    <purpose>This file defines the target user experience (UX) and user interface (UI), including user stories, user flows, and key interactions. AI agents request this document when implementing or modifying user-facing features to ensure alignment with the intended design and user needs.</purpose>
     <scope>
+        *   User Stories & Goals: Clear descriptions of what users want to accomplish and why, connecting features to user needs.
+        *   Success Metrics: Measurable criteria that indicate the design is meeting user needs effectively.
         *   User Flows & Journeys: Detailed descriptions of user navigation for specific goals (e.g., "User Registration Flow," "Product Purchase Journey").
         *   UI Layout & Structure: Descriptions or textual wireframes of screens/pages/components, including element placement and navigation patterns.
         *   Key Interactions: Specifics of UI element interactions (e.g., button clicks, drag-and-drop results).
         *   Visual Elements (Descriptive): Descriptions of styling, branding, and overall aesthetic (unless a separate style guide covers this). Example: "Buttons should have rounded corners and a primary blue background."
         *   Accessibility Considerations: Notes on supporting users with disabilities (e.g., alt text requirements, keyboard navigation support).
+        *   Design Boundaries: Clear statements about what is intentionally out of scope for the design.
+        *   Open Design Questions: Documentation of unresolved design issues that need further investigation.
     </scope>
     <nonScope>
         *   Code implementation details (e.g., specific HTML tags or CSS classes).
@@ -27,12 +31,37 @@ alwaysApply: false
 ## 1. Overview
 
 <!-- Provide a high-level summary of the project's purpose from the user's perspective. What problem does it solve? Who is the target audience? -->
-**Instructions:** Describe the overall user-facing goal and target users here.
+**Instructions:** Describe the overall user-facing goal and target users here. Focus on the problem being solved rather than the implementation details.
 
-## 2. User Flows
+### Key Questions to Answer:
+- What specific user problem or need does this project address?
+- Who are the primary and secondary user groups?
+- What is the core value proposition for these users?
+
+## 2. User Stories and Goals
+
+<!-- Define clear user stories that capture what users want to accomplish and why -->
+**Instructions:** Write user stories in the format "As a [type of user], I want to [perform an action] so that [benefit]." These stories help connect features to user needs.
+
+### Example User Stories:
+
+* As a new user, I want to create an account quickly so that I can start using the application without delay.
+* As a returning user, I want to easily find my saved content so that I can continue where I left off.
+* As a mobile user, I want to access core features on my phone so that I can use the application on the go.
+
+### Success Metrics
+
+<!-- Define how you'll measure the success of the design from a user perspective -->
+**Instructions:** List specific, measurable criteria that indicate the design is successful.
+
+* Example: 80% of users should complete the registration process on first attempt
+* Example: Average time to complete [key task] should be under 30 seconds
+* Example: User satisfaction rating for [feature] should exceed 4.5/5
+
+## 3. User Flows
 
 <!-- Detail the key journeys a user will take through the application. Use flowcharts or numbered steps. -->
-**Instructions:** Map out the primary user interactions and sequences.
+**Instructions:** Map out the primary user interactions and sequences. Focus on the critical paths that users will take to accomplish their goals.
 
 ### Example User Flow: [Feature Name, e.g., User Registration]
 
@@ -90,4 +119,23 @@ alwaysApply: false
 **Instructions:** Specify performance or responsiveness goals affecting the UX.
 
 *   Page load times for key screens should be under [Time, e.g., 2 seconds].
-*   The application must be responsive and usable on screen widths down to [Width, e.g., 320px]. 
+*   The application must be responsive and usable on screen widths down to [Width, e.g., 320px].
+*   [Add other relevant non-functional requirements]
+
+## 6. Design Boundaries (Non-Goals)
+
+<!-- Explicitly state what is out of scope for the design to prevent feature creep -->
+**Instructions:** Clearly define what the design will NOT include or address. This helps maintain focus and set expectations.
+
+* Example: This design does NOT include an admin dashboard (will be designed separately)
+* Example: We will NOT support Internet Explorer 11 or older browsers
+* Example: The initial version will NOT include [specific feature] functionality
+
+## 7. Open Design Questions
+
+<!-- Document unresolved design issues that need further investigation -->
+**Instructions:** List any design decisions that remain unresolved, require stakeholder input, or need user research to validate.
+
+* Example: Should users be able to [specific action], or is that better handled through [alternative approach]?
+* Example: We need to validate whether users prefer [option A] or [option B] for the navigation structure
+* Example: How will the design accommodate [edge case or specific user need]?
