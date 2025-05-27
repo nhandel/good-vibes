@@ -1,0 +1,91 @@
+---
+description: This document explicitly lists all approved technologies, libraries, tools, and their versions for the project. The AI requests this file to confirm allowed dependencies and platform specifics before adding libraries or writing environment-specific code.
+globs: 
+alwaysApply: false
+---
+<!--
+<vibeSpec>
+    <purpose>This document explicitly lists all approved technologies, libraries, tools, and their versions for the project. The AI requests this file to confirm allowed dependencies and platform specifics before adding libraries or writing environment-specific code.</purpose>
+    <scope>
+        *   Programming Languages & Versions: (e.g., Python 3.11+, Node.js 18.x).
+        *   Frameworks & Major Libraries: (e.g., React 18.x, FastAPI 0.100+, Pandas 2.x). Specify versions if critical.
+        *   Databases & Caching: (e.g., PostgreSQL 15, Redis 7).
+        *   APIs (External): List of critical third-party APIs integrated with.
+        *   Build Tools, Package Managers, Linters, Formatters: (e.g., Vite, npm, pip, Ruff, Prettier).
+        *   Testing Frameworks & Tools: (e.g., Pytest, Jest, Playwright).
+        *   Deployment Environment / Cloud Services: Key details (e.g., Docker, Target OS, AWS S3/EC2).
+        *   Critical Constraints: Non-functional requirements impacting technology (e.g., "Real-time data processing required").
+    </scope>
+    <nonScope>
+        *   Application architecture or data flow diagrams (`architecture.mdc`).
+        *   UI design specifications (`design.mdc`).
+        *   Detailed coding standards (specific style guides or `rules.mdc`).
+        *   Business logic descriptions.
+    </nonScope>
+    <usageNotes>Initial draft generated via `prompt-0-context-setup.md`. Requires careful human review and adjustment based on team expertise/project needs. Can be updated via `prompt-5-update-context-doc.md`. AI Agents should request this document to confirm allowed libraries, versions, or tools before adding dependencies or writing platform-specific code.</usageNotes>
+</vibeSpec>
+-->
+
+# Project Tech Stack: Good Vibes Workflow System
+
+## 1. Core Languages & Runtimes
+
+<!-- List the primary programming languages and their runtime environments. -->
+**Instructions:** These define the formats and primary tools for the Good Vibes Workflow documents themselves.
+
+*   **Primary Document Format:** Markdown (`.md`, `.mdc`)
+    *   **Reasoning:** Human-readable, easily writable, widely supported, good for version control, and can be parsed by AI.
+*   **Metadata Language:** YAML (used in Markdown frontmatter)
+    *   **Reasoning:** Standard for structured metadata within Markdown, easy to parse.
+
+## 2. Frameworks
+
+<!-- List the major frameworks used for backend, frontend, etc. -->
+**Instructions:** The Good Vibes Workflow itself acts as a meta-framework for AI-assisted development.
+
+*   **Workflow Framework:** Good Vibes Workflow System (as defined by `.goodvibes/` directory structure and its contents).
+    *   **Components:** Rules (`rules/*.mdc`), Prompts (`prompts/*.md`), Plans, Archive.
+
+## 3. Core Libraries & Packages (Supporting Tools/Concepts)
+
+<!-- List essential libraries that define significant parts of the architecture or provide critical functionality. -->
+**Instructions:** These are not software libraries in the traditional sense but key conceptual elements or tools used with the workflow documents.
+
+*   **Version Control System:** Git
+    *   **Usage:** For tracking changes to all `.goodvibes/` documents, templates, and project code.
+*   **Text Editors / IDEs:** Any modern text editor or Integrated Development Environment with Markdown support.
+    *   **Examples:** VS Code, Sublime Text, Neovim, JetBrains IDEs.
+    *   **Features Leveraged:** Markdown preview, syntax highlighting.
+
+## 4. Databases
+
+<!-- Specify the database(s) used. -->
+*   Not directly applicable to the Good Vibes Workflow System itself. Project-specific databases will be defined in the `tech-stack.mdc` of the project *using* this workflow.
+
+## 5. APIs & External Services
+
+<!-- List crucial external APIs or managed services the project relies on. -->
+**Instructions:** The primary external service is the AI assistant.
+
+*   **AI Coding Assistant:** The specific AI model or platform being interacted with (e.g., Cascade, OpenAI GPT series, Anthropic Claude series).
+    *   **Interaction:** Via standardized prompts defined in `.goodvibes/prompts/`.
+
+## 6. Development & Operations Tools
+
+<!-- List tools used for development, building, deployment, and monitoring. -->
+**Instructions:** Tools used by the developer to manage and interact with the workflow.
+
+*   **Version Control Client:** Git CLI, GUI clients (e.g., GitHub Desktop, Sourcetree).
+*   **Markdown Editors/Viewers:** As mentioned in Core Libraries.
+*   **Shell/Terminal:** For Git operations and potentially running scripts related to project tasks (though not directly part of the workflow's own stack).
+
+## 7. Critical Functionalities & Constraints (for Workflow Documents)
+
+<!-- Note any specific algorithms, protocols, performance constraints, or security requirements dictated by the tech stack choices. -->
+**Instructions:** Requirements for the workflow documents themselves.
+
+*   **Human Readability:** All `.mdc` and `.md` files must be easily readable and understandable by developers.
+*   **AI Parsability:** Documents must be structured in a way that AI can reliably parse and interpret them (especially YAML frontmatter and Markdown structure).
+*   **Versionability:** Changes to workflow documents must be easily trackable via Git.
+*   **Extensibility:** The system (prompts, rules) should be extensible to accommodate different project types and complexities, though specific extensions would be project-defined.
+*   **Consistency:** The structure and naming conventions within the `.goodvibes` directory should be maintained for predictability.

@@ -49,9 +49,17 @@ This README will guide you through setting up and using this workflow to keep th
     # Ensure 'your-project-root' now contains the '.goodvibes' directory.
     ```
 
-    a. If you use cursor you'll want to copy the rules.mdc file into a .cursor directory.
+    a. If you use Cursor you'll want to copy the rules.mdc file into a .cursor directory.
+
+    ```bash
+    cp ~/my-awesome-project/.goodvibes/rules.mdc ~/my-awesome-project/.cursor/rules.mdc
+    ```
 
     b. If you use Windsurf you'll want to copy the rules.mdc file intoa a .windsurfrules file in your project directory.
+
+    ```bash
+    cp ~/my-awesome-project/.goodvibes/rules.mdc ~/my-awesome-project/.windsurfrules
+    ```
 
 3.  **Initialize Core Documents using Prompts**
     -   Navigate to the `.goodvibes/prompts/` directory *within your project*.

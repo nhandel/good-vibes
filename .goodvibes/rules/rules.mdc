@@ -1,0 +1,137 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+<!--
+<vibeSpec>
+    <purpose>This file dictates the AI's operational behavior, defining meta-rules for document interaction, plan execution, prompt safety, and core project conventions. It is always provided as context to govern the AI's process throughout the development workflow.</purpose>
+    <scope>
+        *   AI Meta-Rules (Interaction Rules): How the AI works - when/how to consult documents (e.g., `architecture.mdc`, `design.mdc`, `tech-stack.mdc`), how to execute plan steps (one step at a time, TDD focus), how to update plan progress markers, Prompt Safety enforcement (refuse unsafe actions, ask clarifying questions).
+        *   Project-Specific Conventions & Best Practices: High-level guidelines on modularity, error handling strategies, testing preferences (e.g., TDD enforcement level), core security considerations (e.g., input sanitization rules).
+        *   (Optional) General Standards: Pointers to specific style guides found in `rules/style-guides/`.
+    </scope>
+    <nonScope>
+        *   Content of other core documents (`design.mdc`, `tech-stack.mdc`, `architecture.mdc`, specific style guides).
+        *   Specific implementation plans.
+        *   Project requirements or user stories (these inform `design.mdc` and plans).
+    </nonScope>
+    <usageNotes>Manually curated document defining the AI's operating parameters and interaction protocols. Expected to be relatively stable. AI Editor configuration should leverage these rules where possible (e.g., marking critical meta-rules as "Always Apply"). **This document is always provided as context to the AI and is generally not updated by the AI.**</usageNotes>
+</vibeSpec>
+-->
+
+# Project-Specific AI Rules & Guidelines
+
+**Instructions:** This document defines project-specific rules, conventions, and guidelines for the AI. These rules complement the AI's core operating instructions. When this file is copied to `.windsurfrules` (for Windsurf/Cascade) or `.cursor/rules.mdc` (for Cursor), it provides the AI with tailored guidance for *this specific project*.
+
+Refer to `good-vibes.mdc` for the overall workflow and general AI interaction protocols.
+
+## 1. Key Project Conventions
+
+*(Examples: Preferred architectural patterns, error handling strategies, data validation approaches specific to this project)*
+
+*   **Example Rule:** All new API endpoints must follow the `camelCase` naming convention for request/response bodies.
+*   **Example Rule:** Use the custom `Logger` module for all server-side logging.
+
+## 2. Technology-Specific Guidelines
+
+*(Examples: How to use certain libraries, framework-specific best practices for this project)*
+
+*   **Example Rule (Python/Django):** All database models must inherit from `BaseModel` and include `created_at` and `updated_at` fields.
+*   **Example Rule (React):** State management should primarily use Zustand; avoid Redux for new features unless explicitly planned.
+
+## 3. Style Guide References
+
+*(Point to specific style guides in the `.goodvibes/rules/style-guides/` directory that are active for this project. The AI will adhere to these.)*
+
+*   This project adheres to the following style guides:
+    *   `style-guides/python-style.mdc` (if applicable)
+    *   `style-guides/javascript-style.mdc` (if applicable)
+    *   `style-guides/clean-code.mdc`
+
+## 4. Important Project Boundaries or Constraints
+
+*(Examples: Areas of the codebase the AI should not touch without explicit permission, specific performance constraints, security-sensitive areas.)*
+
+*   **Example Constraint:** Do not modify files within the `legacy_payment_module/` directory without a specific plan step and explicit approval.
+
+## 5. AI Interaction Preferences for this Project
+
+*(Examples: How verbose should the AI be in its explanations for this project? Are there specific types of suggestions you prefer or want to avoid?)*
+
+*   **Example Preference:** When suggesting code changes, prioritize clarity and readability even if it means slightly more verbose code.
+
+*(Add, remove, or modify sections and rules as needed to fit your project's specific requirements.)*
+
+## I. General Conduct
+
+### Understand Workflow
+Your primary role is to execute tasks based on prompts and plans. The overall Good Vibes Workflow is detailed in `rules/good-vibes.mdc`. If unsure about the process, refer to it. This document contains the foundational principles and step-by-step workflow that guides all interactions.
+
+### Prioritize Clarity: Ask Questions
+If any instruction (in plans, prompts, or these rules) is ambiguous, you MUST ask for clarification BEFORE coding or modifying files. Never proceed with unclear instructions as this leads to incorrect implementations and wasted effort. Be specific about what needs clarification.
+
+### Adhere to Safety & Quality
+Refuse or clarify if an instruction implies: introducing TODOs without a plan, insecure code, skipping tests (especially Step 0), or deviating from `tech-stack.mdc` / `architecture.mdc` without explicit direction. Quality and security are non-negotiable aspects of the Good Vibes Workflow.
+
+## II. Implementation Plans
+
+### Plan Instructions are Paramount
+When an implementation plan is active, its current step's instructions take precedence over general guidelines. The plan represents the agreed-upon path forward and should be followed precisely for the current step being implemented.
+
+### Mandatory Plan Structure
+Implementation plans (see `prompt-1-generate-implementation-plan.md` for full generation details) MUST:
+1. Start with `Step 0: Test Scaffold`
+2. End with `Step n: Clean Up and Testing` (includes code polish, standards adherence, full test pass)
+
+Detailed structure for these steps is in `prompt-1` and `good-vibes.mdc`. This structure ensures test-driven development and proper completion of features.
+
+### Execute One Step Only
+Via `prompt-2-implement-plan.md` or `prompt-3-continue-plan.md`, execute ONLY the single designated plan step. No look-ahead implementation is allowed. Each step must be completed, validated, and approved before moving to the next step.
+
+### Consider Plan Risks
+Always review the "Risks" section for the current plan step. Address these risks explicitly in your implementation and validation to ensure robust code.
+
+### No Unplanned Code Changes
+DO NOT make changes not explicitly outlined in the current, active plan step. Unexpected changes create confusion and can introduce bugs or inconsistencies in the codebase.
+
+## III. Standardized Prompts
+
+### Follow Active Prompt Precisely
+Workflow actions are orchestrated by prompts in the `prompts/` directory. Follow the active prompt's instructions exactly. The `good-vibes.mdc` details which prompt to use for each workflow stage, creating a consistent development process.
+
+### Step Execution Process
+When using `prompt-2-implement-plan.md` or `prompt-3-continue-plan.md`, strictly follow the multi-stage execution process detailed within those prompts. These prompts provide specific guidance for implementing plan steps correctly.
+
+### Clarification Handling
+If user invokes `prompt-3.5-continue-with-clarification.md`, follow its specific instructions for focused fixes. This prompt is designed to address specific issues without restarting the entire implementation process.
+
+### Final Review & Archival
+When using `prompt-4-review-completed-plan.md`, follow its instructions for final review, documentation updates, and plan archival. This ensures proper completion and documentation of implemented features.
+
+## IV. Core Documents & Code Quality
+
+### Reference Core Documents
+Always reference these core documents when implementing plan steps:
+- `rules/architecture.mdc` (system structure)
+- `rules/tech-stack.mdc` (approved technologies)
+- `rules/design.mdc` (UX/UI specs)
+- Relevant style guides in `rules/style-guides/` (coding standards)
+
+See `good-vibes.mdc` for details on the content and purpose of each document. These documents provide the essential context for implementation decisions.
+
+### Update Core Documents When Instructed
+When a plan step explicitly instructs to update a core document, do so with care. Document updates should reflect actual implementation decisions and maintain document structure. Core documents serve as the single source of truth for the project's architecture, design, and technology choices.
+
+### Adhere to Style Guides
+During `Step n: Clean Up and Testing` and when modifying code, ensure strict adherence to relevant guides in `rules/style-guides/`. Code quality and consistency are essential aspects of the Good Vibes Workflow.
+
+### Protected Documents
+Never update `rules/good-vibes.mdc` or any file in `rules/style-guides`. These documents define the foundational rules of the workflow and should only be modified by the project maintainers.
+
+## V. Version Control
+
+### Git Commit Hygiene
+If assisting with Git commits, use conventional commit format (type: description), where type is one of: feat, fix, docs, style, refactor, test, chore. Keep commits focused on single logical changes. This ensures a clean and informative commit history. Format:
+    "[Plan <feature-name> - Step <step-number>] <Concise summary>"
+    Example: "[Plan user-auth - Step 3] Implement JWT validation"

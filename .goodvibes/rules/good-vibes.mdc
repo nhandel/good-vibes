@@ -1,0 +1,92 @@
+---
+description:  This file acts as a central reference, previously holding detailed definitions but now primarily pointing to the specification details embedded within each respective .mdc file's header. It can be used by humans or AI needing an index or overview reminder of the document types within the Vibe Coding framework.
+globs: 
+alwaysApply: false
+---
+<!--
+<vibeSpec>
+    <purpose> This file acts as a central reference, previously holding detailed definitions but now primarily pointing to the specification details embedded within each respective .mdc file's header. It can be used by humans or AI needing an index or overview reminder of the document types within the Vibe Coding framework.</purpose>
+    <scope>Contains comprehensive descriptions including Purpose, What Belongs, What Does Not Belong, and Creation/Update guidelines for each Vibe Coding artifact.</scope>
+    <nonScope>Does not contain the actual project-specific content (that lives in the respective files like `architecture.mdc`). Does not define the high-level workflow (that's in README.md).</nonScope>
+    <usageNotes>This document itself is primarily for human reference and potentially for bootstrapping AI understanding of the framework. It is manually maintained. The definitions within *used* to be here, but have been moved into XML comments within each respective document file for self-containment.</usageNotes>
+</vibeSpec>
+-->
+
+# Vibe Coding - Workflow Overview
+
+This file previously contained detailed definitions for the foundation documents.
+These definitions have now been embedded as XML comments (`<!-- <vibeSpec>...</vibeSpec> -->`) at the top of each respective document (`architecture.mdc`, `design.mdc`, `tech-stack.mdc`, `rules.mdc`) for self-contained reference.
+
+Please refer to the main project `README.md` for the overall workflow description and the individual `.mdc` files for their specific definitions and scope.
+
+---
+description: A concise guide to the Vibe Coding workflow, outlining key documents, the iterative development process, and standardized prompts. This document serves as a reference for the AI to understand the operational flow and can be requested by the AI for context on the Vibe Coding system. It is designed for token efficiency.
+globs:
+alwaysApply: false
+---
+# Vibe Coding Workflow Guide (Concise)
+
+## Overview
+
+This guide outlines a structured workflow for AI-assisted development that produces maintainable, high-quality code through planning, iterative execution, and validation. The AI's role is to execute tasks based on human-defined plans and rules within established boundaries.
+
+## Key Principles
+
+- **Solid But Evolving Foundation**: Establish your project's DNA through core documents before diving into code, then evolve these documents as your project grows. These documents define architecture, design, and technology choices that guide implementation and are regularly updated to reflect new insights and decisions.
+- **Developer Guides, AI Executes**: The developer remains in control, setting boundaries and success criteria while the AI acts as an implementation partner. Every step requires human review, testing, and approval, ensuring no code changes are committed without validation.
+- **Test-Driven Development**: Tests precede implementation, ensuring functionality is verified and requirements are met. Every feature starts with test scaffolding and ends with comprehensive test coverage, making validation an integral part of the process.
+- **Iterative Implementation with Atomic Steps**: Break features into small, manageable steps that build toward a complete feature. Each step corresponds to a discrete, logical commit with clear traceability to the implementation plan, allowing for focused development and easy tracking.
+- **Clear and Consistent Protocols**: Use standardized prompts for consistent guidance, providing precise intent and adequate context. When instructions are ambiguous, clarifying questions ensure alignment with developer intent before proceeding with implementation.
+
+## The Workflow: AI-Assisted Implementation
+
+This iterative process uses the Coding AI, guided by documents in `rules/`.
+
+1.  **Plan Generation & Review:**
+    * Use `prompt-1-generate-implementation-plan.md` to create `rules/implementation-plan-[feature-name].mdc`. (Typically with a frontier model, large context via tools like RepoPrompt/PasteMax).
+    * Human reviews and refines the plan.
+2.  **Begin Implementation (First Step):**
+    * Use `prompt-2-implement-plan.md` (within Cursor/Windsurf).
+    * AI executes the first plan step (4-stage process: Understand Validation, Execute Actions (TDD, self-correct), Update Context, Report & Review).
+    * Human reviews and validates.
+3.  **Continue Implementation (Subsequent Steps):**
+    * Use `prompt-3-continue-plan.md`.
+    * AI executes the next incomplete step (same 4-stage process).
+    * Human reviews and validates.
+4.  **Handling Issues:**
+    * If AI self-correction fails, use `prompt-3.5-continue-with-clarification.md`.
+5.  **Iterate:** Repeat until all plan steps (including `Step n: Clean Up and Testing`) are 'Completed'.
+6.  **Final Plan Review & Archival:**
+    * Use `prompt-4-review-completed-plan.md`. AI verifies, updates core docs, creates final report in plan, archives plan.
+7.  **General Context Updates:**
+    * Use `prompt-5-update-context-doc.md` for ad-hoc updates to core documents.
+
+## Project Structure and Foundation Documents (`rules/`)
+
+All Vibe Coding artifacts are in the `rules` directory. The AI should be aware of these and can request access to them for context.
+
+* **`rules/design.mdc`**: Single source of truth for UX/UI. Describes user flows, layouts, interactions, visual elements, and accessibility.
+* **`rules/tech-stack.mdc`**: Defines all project technologies: languages, frameworks, libraries, databases, APIs, tools, and critical tech constraints.
+* **`rules/architecture.mdc`**: Blueprint of the codebase: structure, components, interactions, data flow, design patterns, communication protocols. *This document is dynamic and updated by the AI as guided by prompts.*
+* **`rules/style-guides/`**: Directory containing specific coding style, formatting, commenting, and naming conventions (e.g., `python.mdc`, `react.mdc`).
+* **`rules/rules.mdc`**: **Core AI operational rules.** Defines AI behavior, interaction with documents, coding standards, and prompt safety. *This file is often marked "alwaysApply" and is a primary source for AI conduct.*
+* **`rules/implementation-plan-[feature-name].mdc`**: Detailed, step-by-step guide for building a feature. Includes goals, actions, validation criteria, risks, progress markers per step.
+    * **Must start with `Step 0: Test Scaffold`**.
+    * **Must end with `Step n: Clean Up and Testing`**.
+* **`prompts/`**: Reusable prompt templates for consistent AI interaction (e.g., `prompt-1-generate-implementation-plan.md`, `prompt-2-implement-plan.md`). These use placeholders like `[feature-name]`.
+* **`archive/`**: Stores completed and validated implementation plans.
+
+## Standardized Prompts (`prompts/`) - Overview
+
+These prompts orchestrate the workflow. Refer to the `rules.mdc` for how these prompts govern AI actions. The AI can request the content of these prompt files if specific interaction details are needed.
+
+* **`prompt-5-update-context-doc.md`**: Updates core context documents (`architecture.mdc`, `design.mdc`, `tech-stack.mdc`).
+* **`prompt-1-generate-implementation-plan.md`**: Generates a new feature implementation plan. *Used with frontier models & large context.*
+* **`prompt-2-implement-plan.md`**: Starts execution of an implementation plan (first step). *Used in AI editors.*
+* **`prompt-3-continue-plan.md`**: Executes the next incomplete step in a plan. *Used in AI editors.*
+* **`prompt-3.5-continue-with-clarification.md`**: Guides AI in fixing issues during a step. *Used in AI editors.*
+* **`prompt-4-review-completed-plan.md`**: Final review, documentation update, and archival of a completed plan. *Used in AI editors.*
+
+---
+*This workflow guide was inspired by the concepts presented in the "Ultimate Guide to Vibe Coding" by Nicolas Zullo (@https://github.com/EnzeD/good-vibes). Styles guides cam from awesome-cursorrules by PatrickJS and other contributors. Thanks for your work!!*
+prompt-5prompt-5prompt-5prompt-5

@@ -1,0 +1,146 @@
+---
+description: This file defines the target developer experience (DX) and user interface (UI), including user flows and key interactions, for the Good Vibes Workflow System. AI agents request this document when implementing or modifying developer-facing features to ensure alignment with the intended design and developer needs.
+globs: 
+alwaysApply: false
+---
+<!--
+<vibeSpec>
+    <purpose>This file defines the target developer experience (DX) and user interface (UI), including user stories, user flows, and key interactions, for the Good Vibes Workflow System. AI agents request this document when implementing or modifying developer-facing features to ensure alignment with the intended design and developer needs.</purpose>
+    <scope>
+        *   User Stories & Goals: Clear descriptions of what developers want to accomplish and why, connecting features to developer needs.
+        *   Success Metrics: Measurable criteria that indicate the design is meeting developer needs effectively.
+        *   User Flows & Journeys: Detailed descriptions of developer navigation for specific goals (e.g., "Feature Implementation Cycle").
+        *   UI Layout & Structure: Descriptions or textual wireframes of key documents and interactions, including element placement and navigation patterns.
+        *   Key Interactions: Specifics of UI element interactions (e.g., prompt invocation, placeholder filling).
+        *   Visual Elements (Descriptive): Descriptions of styling, branding, and overall aesthetic (unless a separate style guide covers this). Example: "Code blocks should use Markdown syntax with language identifiers."
+        *   Accessibility Considerations: Notes on supporting developers with disabilities (e.g., alt text requirements, keyboard navigation support).
+        *   Design Boundaries: Clear statements about what is intentionally out of scope for the design.
+        *   Open Design Questions: Documentation of unresolved design issues that need further investigation.
+    </scope>
+    <nonScope>
+        *   Code implementation details (e.g., specific HTML tags or CSS classes).
+        *   Specific front-end framework/library choices (these belong in `tech-stack.mdc`).
+        *   Database schema or backend API endpoint definitions (these belong in `architecture.mdc`).
+    </nonScope>
+    <usageNotes>Initial draft generated via `prompt-0-context-setup.md` based on project idea/requirements. Requires thorough human review and refinement before coding. Can be updated via `prompt-5-update-context-doc.md` if UX/UI requirements change significantly. AI Agents should request this when needing to understand developer-facing aspects or implement UI changes.</usageNotes>
+</vibeSpec>
+-->
+
+# Project Design Document: Good Vibes Workflow System
+
+## 1. Overview
+
+This document outlines the design of the Good Vibes Workflow System from the perspective of its primary user: **the Developer**. The "User Interface" (UI) for this system comprises the structured set of rules, prompts, templates, and the expected interaction patterns with an AI Coding Assistant. The goal is to provide a clear, consistent, and efficient experience for developers leveraging AI to build and maintain software.
+
+The system aims to solve the problem of unstructured, unpredictable, and often low-quality interactions when using AI for coding tasks. It provides a framework that empowers developers to guide AI effectively, ensuring that AI contributions align with project standards, architectural decisions, and quality expectations.
+
+### Key Questions Answered:
+- **User Problem:** Developers need a reliable and repeatable way to integrate AI into their development lifecycle without sacrificing control, quality, or adherence to project-specific requirements.
+- **Primary User Group:** Software developers of varying experience levels who are working with AI coding assistants.
+- **Core Value Proposition:** A structured workflow that enables developers to confidently delegate coding tasks to AI, resulting in faster development cycles, higher quality code, and better adherence to project standards, all while keeping the developer in full control.
+
+## 2. User Stories and Goals
+
+**Instructions:** These stories describe the developer's interaction with the Good Vibes Workflow System.
+
+### Developer User Stories:
+
+*   As a Developer starting a new project, I want to quickly set up the foundational rules (architecture, tech stack, design principles) with AI assistance, so that the AI has the necessary context to contribute effectively from the start (`prompt-0`).
+*   As a Developer planning a new feature, I want the AI to generate a comprehensive, step-by-step implementation plan based on my requirements, including test scaffolds, so that I can review and approve a clear path forward before coding begins (`prompt-1`).
+*   As a Developer executing an implementation plan, I want to instruct the AI to implement one specific step at a time, so that I can review and validate small, atomic changes (`prompt-2`, `prompt-3`).
+*   As a Developer, if the AI's output for a plan step is not quite right, I want to easily provide clarification or correction and have the AI revise its work for that step, so that the output meets my requirements (`prompt-3.5`).
+*   As a Developer completing a feature, I want a structured process to review all implemented steps, ensure code quality, update documentation, and finalize the work with AI assistance, so that the feature is robust and well-integrated (`prompt-4`).
+*   As a Developer, I want the AI to consistently follow project-specific coding styles and architectural patterns, so that the codebase remains coherent and maintainable (enforced by `rules/*.mdc` and `rules/style-guides/*`).
+*   As a Developer, I want all interactions with the AI to be predictable and based on clear, standardized prompts, so that I understand how to guide the AI effectively at each stage.
+
+### Success Metrics:
+
+*   **Clarity & Usability:** Developers can understand and correctly use the primary prompts (`prompt-0` through `prompt-4`) with minimal ambiguity after a brief introduction to the system.
+*   **Efficiency:** Time taken to generate a satisfactory initial implementation plan (`prompt-1`) for a medium-complexity feature is significantly reduced compared to manual planning.
+*   **Adherence:** AI-generated code consistently adheres to the style guides and architectural principles defined in the `.goodvibes/rules/` directory, requiring minimal corrective feedback related to these aspects.
+*   **Control:** Developers feel in control throughout the process, able to effectively steer and correct AI contributions.
+*   **Quality:** The defect rate in AI-assisted code (post-developer review) is comparable to or lower than fully human-written code.
+
+## 3. User Flows (Workflow Stages)
+
+**Instructions:** These flows describe the developer's journey through the Good Vibes Workflow stages.
+
+### Flow 1: Initial Project Context Setup
+
+1.  **Developer Action:** Identifies the need to establish foundational project context for AI collaboration.
+2.  **Developer Action:** Invokes `prompt-0-context-setup.md` with the AI assistant.
+3.  **AI Interaction:** AI asks structured questions about project goals, scope, desired architecture, tech stack, etc.
+4.  **Developer Interaction:** Provides answers and relevant information to the AI.
+5.  **AI Output:** Generates draft versions of `.goodvibes/rules/architecture.mdc`, `.goodvibes/rules/design.mdc`, and `.goodvibes/rules/tech-stack.mdc`.
+6.  **Developer Action:** Reviews and refines the generated documents, committing them to the project repository.
+
+### Flow 2: Feature Implementation Cycle
+
+1.  **Developer Action (Planning):** Defines requirements for a new feature/task. Invokes `prompt-1-generate-implementation-plan.md`.
+2.  **AI Output (Plan):** AI generates a detailed, multi-step implementation plan, including `Step 0: Test Scaffold` and `Step N: Clean Up and Testing`.
+3.  **Developer Action (Plan Review):** Reviews the plan. If satisfactory, approves it. If not, provides feedback to AI for revision until approved.
+4.  **Developer Action (Step Implementation):** For each step in the plan, invokes `prompt-2-implement-plan.md` (for the first step) or `prompt-3-continue-plan.md` (for subsequent steps).
+5.  **AI Action (Code/Task Execution):** AI performs the task described in the current plan step (e.g., writes code, modifies files).
+6.  **Developer Action (Step Review & Test):** Reviews AI's output, runs tests. 
+    *   If output is correct: Proceeds to the next step (back to step 4 for next plan step).
+    *   If output needs minor correction: Invokes `prompt-3.5-continue-with-clarification.md`, provides feedback, AI revises. Developer re-reviews.
+7.  **Developer Action (Final Review):** Once all plan steps are complete, invokes `prompt-4-review-completed-plan.md`.
+8.  **AI & Developer Interaction (Wrap-up):** Collaborative final review, code polish, documentation updates, ensuring adherence to all standards.
+9.  **Developer Action:** Commits final changes. Archives the completed implementation plan in `.goodvibes/archive/`.
+
+## 4. UI Layouts & Key "Screens" (Key Documents)
+
+The "UI" of the Good Vibes Workflow System consists of the structured Markdown (`.mdc`) files that developers interact with and that guide the AI. These are not graphical screens but information interfaces.
+
+### Key Document Type 1: Rule Files (`.goodvibes/rules/*.mdc`)
+
+*   **Layout:** YAML frontmatter for metadata (description, globs), followed by Markdown content.
+*   **Structure (`good-vibes.mdc`):** Sections for Core Principles, Workflow Stages, AI Interaction Protocols, General Conduct, etc.
+*   **Structure (`architecture.mdc`, `design.mdc`, `tech-stack.mdc`):** Standardized sections (Overview, Key Components, etc.) as defined in their respective templates, populated with project-specific details.
+*   **Interaction:** Primarily read by the AI for context; written/edited by the developer (often with AI assistance during `prompt-0` or `prompt-5`).
+
+### Key Document Type 2: Prompt Files (`.goodvibes/prompts/*.md`)
+
+*   **Layout:** Markdown, often with a preamble explaining the prompt's purpose and expected inputs/outputs.
+*   **Structure:** Clear instructions to the AI, placeholders for developer input (e.g., `{{FEATURE_DESCRIPTION}}`, `{{CURRENT_PLAN_STEP}}`). May include examples of desired output format.
+*   **Interaction:** Developer invokes a prompt by providing it to the AI, filling in any required placeholders. AI follows the instructions within the prompt.
+
+### Key Document Type 3: Implementation Plans (`.goodvibes/plans/*.md` or `template/rules/implementation-plan-example-feature.mdc`)
+
+*   **Layout:** YAML frontmatter for plan metadata (Feature Name, Status, Current Step), followed by Markdown content.
+*   **Structure:** Sections for Implementation Context, Relevant Files, Core Documents Affected, Success Metrics, Risks, and a numbered list of Steps (Step 0 to Step N).
+*   **Interaction:** Generated by AI (`prompt-1`), reviewed/approved by developer. Used by AI as a script during `prompt-2` and `prompt-3`. Read by developer to track progress.
+
+## 5. Key Interactions & Visual Elements (Interaction Patterns)
+
+Visual elements are minimal, focusing on clarity of text and structure in Markdown.
+
+*   **Prompt Invocation:** Developer clearly indicates which prompt is being used (e.g., "Okay, let's use `prompt-1-generate-implementation-plan.md` for this feature...").
+*   **Placeholder Filling:** Developer replaces placeholders in prompts (e.g., `{{USER_REQUEST}}`) with specific details.
+*   **AI Requesting Clarification:** AI should ask specific, targeted questions if a prompt or developer input is ambiguous, rather than making unsafe assumptions.
+*   **Developer Providing Feedback:** Feedback on AI output should be specific, referencing parts of the code or plan that need changes.
+*   **Use of Code Blocks:** Code snippets (from developer or AI) are clearly delineated using Markdown code blocks with language identifiers.
+*   **File Path Conventions:** Consistent use of relative or absolute paths as appropriate when referring to files.
+*   **Emphasis/Clarity:** Use of **bolding** or `backticks` for emphasis on key terms, file names, or instructions within textual interactions.
+
+## 6. Non-Functional Requirements (UX-Related)
+
+*   **Prompt Clarity:** Prompts must be written in clear, unambiguous language, minimizing cognitive load on the developer.
+*   **AI Response Time:** While not strictly part of this system's design, the workflow assumes reasonably timely responses from the AI for a good UX.
+*   **Consistency:** The AI's interpretation and execution of a given prompt should be consistent across similar inputs.
+*   **Error Handling (by AI):** When AI cannot fulfill a request due to limitations or lack of clarity, it should state so clearly rather than producing incorrect or incomplete output.
+*   **Documentation Readability:** All `.mdc` files must be well-formatted and easy for developers to read and understand.
+
+## 7. Design Boundaries (Non-Goals)
+
+*   This design does NOT specify the AI model to be used; it defines the interaction framework around an assumed capable AI coding assistant.
+*   This design does NOT include a graphical user interface (GUI); all interactions are text-based via prompts and Markdown files.
+*   The system does not automate Git operations or CI/CD pipelines directly, though implementation plans can include steps for the developer/AI to perform these actions manually or via CLI commands.
+*   The system does not enforce a specific programming language or framework for the target project, but `tech-stack.mdc` and `style-guides/` allow projects to define these.
+
+## 8. Open Design Questions
+
+*   How can the system best guide developers in creating *effective* initial context in `prompt-0` to minimize back-and-forth?
+*   What are the best strategies for versioning or updating core `.goodvibes/` documents (prompts, rules) when the workflow itself evolves?
+*   Could a more formal schema (e.g., JSON Schema) for the YAML frontmatter in `.mdc` files improve robustness and tooling, and if so, is the trade-off in human readability acceptable?
+*   How to best handle situations where a developer wishes to deviate significantly from an approved implementation plan mid-execution?

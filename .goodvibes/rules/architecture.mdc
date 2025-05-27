@@ -1,0 +1,156 @@
+---
+description: This document serves as the high-level blueprint for the codebase, detailing its structure, key components, and their interactions. The AI requests this file to understand system organization and ensure new code aligns with established architectural patterns.
+globs: 
+alwaysApply: false
+---
+<!--
+<vibeSpec>
+    <purpose>This document serves as the high-level blueprint for the codebase, detailing its structure, key components, and their interactions. The AI requests this file to understand system organization and ensure new code aligns with established architectural patterns.</purpose>
+    <scope>
+        *   High-Level System Overview: Brief description/diagram of main parts and responsibilities.
+        *   Directory & File Structure Conventions: Guidelines for code organization.
+        *   Key Modules/Components/Services: Identification, description, responsibilities, and public interfaces (APIs).
+        *   Data Flow Patterns: Descriptions or diagrams (e.g., Mermaid sequence diagrams) showing data movement.
+        *   Key Design Patterns Employed: (e.g., MVC, Microservices, Repository Pattern).
+        *   Communication Protocols (Internal): How system parts interact (e.g., REST, gRPC, Message Queues).
+        *   Database Schema Overview (Conceptual): High-level description of key entities and relationships (not full DDL).
+    </scope>
+    <nonScope>
+        *   Detailed UI mockups or user flows (`design.mdc`).
+        *   Minor library choices unless architecturally significant (`tech-stack.mdc`).
+        *   Implementation details of individual functions/methods.
+        *   Exhaustive lists of every file/class; focus on structure and patterns.
+    </nonScope>
+    <usageNotes>Initial draft generated via `prompt-0-context-setup.md`. This is a "living document" updated throughout development, either via `prompt-5-update-context-doc.md` or as specified within implementation plan steps after validation. Requires regular human review. AI Agents should request this document when needing to understand system structure or placement of new components.</usageNotes>
+</vibeSpec>
+-->
+
+# Project Architecture: Good Vibes Workflow System
+
+## 1. Overview
+
+The Good Vibes Workflow System is not a traditional software application but rather a structured methodology and a collection of meta-documents (rules, prompts, templates) designed to guide AI-assisted software development. Its architecture is a framework that defines how developers and AI agents interact, ensuring consistency, quality, and adherence to project standards.
+
+The system is architected around a set of core principles:
+- **Foundation First:** Core documents (`good-vibes.mdc`, `architecture.mdc`, `design.mdc`, `tech-stack.mdc`) establish the project's DNA.
+- **Developer-Defined, AI-Executed:** Developers set the direction, constraints, and quality bars; AI agents execute within these boundaries.
+- **Iterative Implementation:** Work is broken down into small, manageable, testable steps defined in implementation plans.
+- **Standardized Communication:** Prompts provide a consistent interface for developer-AI interaction.
+- **Living Documentation:** Core documents are expected to evolve with the project.
+
+## 2. Folder Structure
+
+The `good-vibes` repository, which houses the Good Vibes Workflow System itself, is organized as follows. This structure is designed to clearly separate the workflow definitions, prompts, templates, and archival storage.
+
+```
+/ (good-vibes repository root)
+|-- .goodvibes/             # Core directory for the Good Vibes Workflow System definitions
+|   |-- rules/              # Definitive documents governing the workflow and project specifics
+|   |   |-- good-vibes.mdc  # Core principles, workflow stages, and interaction protocols
+|   |   |-- architecture.mdc# This document: System structure (of the workflow itself)
+|   |   |-- design.mdc      # UX/UI for developer interaction with the workflow
+|   |   |-- tech-stack.mdc  # Approved technologies for projects *using* this workflow
+|   |   `-- style-guides/   # Language/framework specific coding style guides
+|   |       |-- python-style.mdc      # Example Python style guide
+|   |       `-- javascript-style.mdc  # Example JavaScript style guide
+|   |-- prompts/            # Standardized prompts for AI agent interaction
+|   |   |-- prompt-0-context-setup.md
+|   |   |-- prompt-1-generate-implementation-plan.md
+|   |   |-- prompt-2-implement-plan.md
+|   |   |-- prompt-3-continue-plan.md
+|   |   |-- prompt-3.5-continue-with-clarification.md
+|   |   |-- prompt-4-review-completed-plan.md
+|   |   `-- prompt-5-update-context-doc.md
+|   `-- archive/            # Storage for completed and reviewed implementation plans
+|       `-- .gitkeep          # To ensure the directory is tracked even if empty initially
+|-- template/               # Reusable templates and examples for projects adopting the workflow
+|   |-- rules/
+|   |   |-- good-vibes.mdc       # Template for project-specific good-vibes.mdc
+|   |   |-- architecture.mdc   # Template for project-specific architecture.mdc
+|   |   |-- design.mdc         # Template for project-specific design.mdc
+|   |   |-- tech-stack.mdc     # Template for project-specific tech-stack.mdc
+|   |   |-- implementation-plan-example-feature.mdc # General example feature plan template 
+|   |   `-- style-guides/
+|   |       |-- python-style.mdc      # Example Python style guide template
+|   |       `-- javascript-style.mdc  # Example JavaScript style guide template
+|   |-- prompts/
+|   |   |-- prompt-0-context-setup.md
+|   |   |-- prompt-1-generate-implementation-plan.md
+|   |   |-- prompt-2-implement-plan.md
+|   |   |-- prompt-3-continue-plan.md
+|   |   |-- prompt-3.5-continue-with-clarification.md
+|   |   |-- prompt-4-review-completed-plan.md
+|   |   `-- prompt-5-update-context-doc.md
+|   |-- archive/
+|-- .editorconfig           # Editor configuration for consistent coding styles
+|-- .gitignore
+|-- LICENSE                 # Project's license information
+|-- README.md               # Overview of the Good Vibes Workflow and repository
+# Potentially other files like CONTRIBUTING.md, CHANGELOG.md
+```
+
+## 3. Key Modules/Components & Responsibilities
+
+The Good Vibes Workflow System is composed of structured documents and directories rather than traditional executable code modules. These components define the workflow, guide AI interaction, and store project-specific adaptations.
+
+### `.goodvibes/rules/`
+*   **Purpose:** Contains the definitive documents that govern the workflow and provide project-specific context for the AI.
+*   **Key Components:**
+    *   `good-vibes.mdc`: The master document outlining core principles, workflow stages (context setup, planning, implementation, review), AI interaction protocols, and rules of engagement.
+    *   `architecture.mdc` (this document): Describes the structure of the Good Vibes Workflow System itself and provides a template for how projects using the workflow should document their own architecture.
+    *   `design.mdc`: Outlines the user experience (developer experience) of interacting with the Good Vibes Workflow, including how prompts are used and how feedback is incorporated. It also serves as a template for project-specific design documents.
+    *   `tech-stack.mdc`: Lists approved/recommended technologies for projects adopting the Good Vibes Workflow. This helps the AI make informed decisions about libraries, frameworks, and tools. It also serves as a template.
+    *   `style-guides/`: A directory to hold specific coding style guides (e.g., `python-style.mdc`, `typescript-style.mdc`) that AI agents must adhere to for a given project.
+
+### `.goodvibes/prompts/`
+*   **Purpose:** Contains standardized prompts used to interact with the AI agent at different stages of the workflow. This ensures consistent and effective communication.
+*   **Key Components (Examples):**
+    *   `prompt-0-context-setup.md`: Guides the AI in gathering initial project context to populate the core `.goodvibes/rules/` documents.
+    *   `prompt-1-generate-implementation-plan.md`: Instructs the AI on how to create a detailed, step-by-step implementation plan for a new feature or task.
+    *   `prompt-2-implement-plan.md`: Kicks off the execution of a specific step in an implementation plan.
+    *   `prompt-3-continue-plan.md` & `prompt-3.5-continue-with-clarification.md`: Used to continue a multi-step implementation or to provide corrections/clarifications.
+    *   `prompt-4-review-completed-plan.md`: Guides the AI and developer through the final review and cleanup of a completed implementation plan.
+
+### `.goodvibes/archive/`
+*   **Purpose:** Stores completed and reviewed implementation plans for historical reference and knowledge sharing.
+
+### `template/`
+*   **Purpose:** Provides boilerplate/example structures for key workflow documents (e.g., `implementation-plan-example-feature.mdc`) that can be adapted by projects adopting the Good Vibes Workflow.
+
+## 4. Data Flow (Workflow Stages)
+
+The "data" in the Good Vibes Workflow System is primarily textual information: requirements, plans, code, and feedback, exchanged between the developer and the AI agent.
+
+### Initial Project Setup / Contextualization (`prompt-0`):
+1.  **Developer Input:** Initiates `prompt-0-context-setup.md`.
+2.  **AI Interaction:** AI asks clarifying questions about the project.
+3.  **Developer Response:** Provides project details (goals, existing codebase, desired tech stack, etc.).
+4.  **AI Output:** Generates initial drafts of `.goodvibes/rules/` documents (`architecture.mdc`, `design.mdc`, `tech-stack.mdc`) based on the gathered context.
+5.  **Developer Review:** Developer reviews and refines these core documents.
+
+### Feature Implementation Cycle (`prompt-1` to `prompt-4`):
+1.  **Developer Input (Planning - `prompt-1`):** Specifies a feature/task and initiates `prompt-1-generate-implementation-plan.md`.
+2.  **AI Output (Plan):** AI generates a detailed, step-by-step implementation plan, including test scaffolds (Step 0) and cleanup (Step N).
+3.  **Developer Review & Approval (Plan):** Developer reviews the plan, requests modifications if needed, and approves it.
+4.  **Developer Input (Implementation - `prompt-2`, `prompt-3`):** Initiates `prompt-2-implement-plan.md` for the first (or next) step.
+5.  **AI Action (Code Generation/Modification):** AI generates or modifies code according to the plan step.
+6.  **Developer Review & Testing (Code):** Developer reviews the AI's output, runs tests, provides feedback or corrections (potentially using `prompt-3.x`).
+7.  **Iteration:** Steps 4-6 repeat for each step in the plan.
+8.  **Developer Input (Final Review - `prompt-4`):** Initiates `prompt-4-review-completed-plan.md` after all plan steps are done.
+9.  **AI & Developer Action (Cleanup & Documentation):** Final code polish, documentation updates, adherence to style guides.
+10. **Archival:** The completed plan is moved to `.goodvibes/archive/`.
+
+## 5. Key Design Decisions & Trade-offs
+
+*   **Decision:** Use of Markdown with YAML frontmatter (`.mdc` files) for core documents (`rules/`, `prompts/`).
+    *   **Reason:** Human-readable and writable, easily parsable by AI, supports metadata (globs, descriptions), version-controllable, widely supported tooling.
+    *   **Trade-off:** Less structured than pure data formats like JSON/YAML for the main content, relies on conventions for sectioning within the Markdown.
+*   **Decision:** Standardized, numbered prompts for distinct workflow stages.
+    *   **Reason:** Creates a predictable and consistent interaction model for both developer and AI. Simplifies automation and tooling around the workflow. Makes the process teachable and learnable.
+    *   **Trade-off:** Can feel rigid if a situation doesn't perfectly fit a prompt. Requires discipline to follow the prompt structure.
+*   **Decision:** Iterative, plan-based development with explicit developer review at each stage (plan approval, code review per step).
+    *   **Reason:** Ensures developer control and oversight. Breaks down complex tasks into manageable chunks. Allows for early detection of misunderstandings or errors by the AI. Emphasizes Test-Driven Development (Step 0).
+    *   **Trade-off:** Can be slower than allowing the AI more autonomy for very simple tasks. Requires active developer engagement throughout the process.
+*   **Decision:** Core documents (`good-vibes.mdc`, `architecture.mdc`, etc.) are "living documents."
+    *   **Reason:** Allows the project's foundational rules and context to evolve as the project grows and requirements change. Prevents documentation from becoming stale.
+    *   **Trade-off:** Requires diligence in keeping documents updated. Changes to core documents can impact ongoing or future AI interactions.
